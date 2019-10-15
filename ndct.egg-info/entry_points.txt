@@ -1,0 +1,3 @@
+[console_scripts]
+ndct = ndct.cli.main:main
+
