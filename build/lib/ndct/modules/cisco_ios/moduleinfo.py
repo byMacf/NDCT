@@ -1,2 +1,0 @@
-REGISTERED = True
-
