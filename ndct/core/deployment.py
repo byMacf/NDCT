@@ -2,11 +2,11 @@ import uuid
 import os
 
 from multiprocessing import Process
-from ndct.core.configuration_tools import Configuration
-from ndct.core.crypt_tools import Crypt
+from ndct.core.configuration import Configuration
+from ndct.core.crypt import Crypt
 from ndct.core.log import log
 
-deployment_list = []
+deployments = []
 
 class Deployment:
 	def __init__(self, name, targets, action, deployment_id=str(uuid.uuid4()), status='Not started', attribute=None):
@@ -81,7 +81,7 @@ class Deployment:
 					status=deployment['status'],
 					attribute=deployment.get('attribute')
 				)
-				deployment_list.append({deployment['name']: deployment_object})
+				deployments.append({deployment['name']: deployment_object})
 
 			log('Got deployments from file', 'info')
 		else:
@@ -95,7 +95,7 @@ class Deployment:
 		'''
 		deployments_to_save = []
 
-		for deployment in deployment_list:
+		for deployment in deployments:
 			for deployment_name, deployment_object in deployment.items():
 				deployments_to_save.append(deployment_object.all())
 

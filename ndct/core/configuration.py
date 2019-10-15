@@ -1,6 +1,6 @@
 from datetime import datetime
-from ndct.core.connection_tools import Connection
-from ndct.core.device_tools import Device
+from ndct.core.connection import Connection
+from ndct.core.device import Device
 from ndct.core.log import log
 
 class Configuration:

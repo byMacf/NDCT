@@ -2,7 +2,7 @@ import click
 
 from ast import literal_eval
 from cryptography.fernet import Fernet
-from ndct.core.crypt_tools import Crypt
+from ndct.core.crypt import Crypt
 from ndct.core.log import log
 
 @click.command(short_help = 'Decrypt a file')

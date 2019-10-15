@@ -1,5 +1,5 @@
 from netmiko import Netmiko
-from ndct.core.device_tools import Device
+from ndct.core.device import Device
 from ndct.core.log import log
 
 class Connection(Device):

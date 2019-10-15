@@ -1,9 +1,9 @@
 import os
 
-from ndct.core.crypt_tools import Crypt
+from ndct.core.crypt import Crypt
 from ndct.core.log import log
 
-device_list = []
+devices = []
 
 class Device():
 	def __init__(self, name, ip, user, password, os):
@@ -47,7 +47,7 @@ class Device():
 					device['password'], 
 					device['os']
 				)
-				device_list.append({device['name']: device_object})
+				devices.append({device['name']: device_object})
 			log('Got devices from file', 'info')
 		else:
 			log('No devices to get from file', 'info')
@@ -60,7 +60,7 @@ class Device():
 		'''
 		devices_to_save = []
 
-		for device in device_list:
+		for device in devices:
 			for device_name, device_object in device.items():
 				devices_to_save.append(device_object.all())
 
@@ -77,7 +77,7 @@ class Device():
 		Returns:
 		Device instance contents in dictionairy form.
 		'''
-		for device in device_list:
+		for device in devices:
 			if device_name in device:
 				device_information = device[device_name].all()
 
@@ -99,7 +99,7 @@ class Device():
 							device['password'], 
 							device['os']
 						)
-						device_list.append({device['name']: device_object})
+						devices.append({device['name']: device_object})
 						log('Got devices from file', 'info')
 				else:
 					log('No devices to get from file', 'info')
@@ -107,7 +107,7 @@ class Device():
 			if save == True:
 				devices_to_save = []
 
-				for device in device_list:
+				for device in devices:
 					for device_name, device_object in device.items():
 						devices_to_save.append(device_object.all())
 

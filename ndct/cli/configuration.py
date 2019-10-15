@@ -4,7 +4,7 @@ import difflib
 import yaml
 
 from jinja2 import Environment, FileSystemLoader
-from ndct.core.configuration_tools import Configuration
+from ndct.core.configuration import Configuration
 from ndct.core.log import log
 
 @click.command(short_help = 'Generate a configuration')

@@ -1,6 +1,6 @@
 import click
 
-from ndct.core.device_tools import Device, device_list
+from ndct.core.device import Device, devices
 from ndct.core.log import log
 
 @click.command(short_help = 'Add a device')
@@ -16,7 +16,7 @@ def add(name, ip, username, password, os):
 	'''
 	Device.get_devices_from_file()
 	device_object = Device(name, ip, username, password, os)
-	device_list.append({name: device_object})
+	devices.append({name: device_object})
 	log('Device {} added successfully'.format(name), 'info')
 	Device.save_devices_to_file()
 	#Expand this to add multiple devices at a time
@@ -29,9 +29,9 @@ def remove(name):
 	Removes a device.
 	'''
 	Device.get_devices_from_file()
-	for device in device_list:
+	for device in devices:
 		if name in device:
-			device_list.remove(device)
+			devices.remove(device)
 			log('Device {} removed successfully'.format(name), 'info')
 			Device.save_devices_to_file()
 			return

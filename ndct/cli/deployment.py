@@ -1,6 +1,6 @@
 import click
 
-from ndct.core.deployment_tools import Deployment, deployment_list
+from ndct.core.deployment import Deployment, deployments
 from ndct.core.log import log
     
 @click.command(short_help = 'Add a deployment')
@@ -16,10 +16,10 @@ def add(name, targets, action, attribute):
 	Deployment.get_deployments_from_file()
 	if attribute:
 		deployment_object = Deployment(name, targets, action, attribute=attribute)
-		deployment_list.append({name: deployment_object})
+		deployments.append({name: deployment_object})
 	else:
 		deployment_object = Deployment(name, targets, action)
-		deployment_list.append({name: deployment_object})
+		deployments.append({name: deployment_object})
 	log('Deployment {} with ID {} added successfully'.format(name, deployment_object.deployment_id), 'info')
 	Deployment.save_deployments_to_file()
 
@@ -31,9 +31,9 @@ def remove(name):
 	Removes a deployment.
 	'''
 	Deployment.get_deployments_from_file()
-	for deployment in deployment_list:
+	for deployment in deployments:
 		if name in deployment:
-			deployment_list.remove(deployment)
+			deployments.remove(deployment)
 			log('Deployment {} removed successfully'.format(name))
 			Deployment.save_deployments_to_file()
 			return
@@ -48,7 +48,7 @@ def view(name):
 	Prints attributes of a Deployment instance.
 	'''
 	Deployment.get_deployments_from_file()
-	for deployment in deployment_list:
+	for deployment in deployments:
 		if name in deployment:
 			deployment_dict = deployment[name].all()
 			log('Name: ' + str(deployment_dict['name']), 'info')
@@ -70,7 +70,7 @@ def run(name):
 	Calls the run method on a Deployment object.
 	'''
 	Deployment.get_deployments_from_file()
-	for deployment in deployment_list:
+	for deployment in deployments:
 		if name in deployment:
 			deployment[name].run()
 			Deployment.save_deployments_to_file()
