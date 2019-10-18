@@ -1,6 +1,6 @@
 def banner():
     print('''
-    Created by: github.com/tcppsh
+    Created by: github.com/m4cfarlane
      _   _ ____   ____ _____
     | \ | |  _ \ / ___|_   _|
     |  \| | | | | |     | |
