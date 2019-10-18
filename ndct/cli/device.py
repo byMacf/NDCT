@@ -51,7 +51,7 @@ def view(name):
 	if device_information != None:
 		log('Name: ' + str(device_information['name']), 'info')
 		log('IP: ' + str(device_information['ip']), 'info') 
-		log('User: ' + str(device_information['username']), 'info')
+		log('Username: ' + str(device_information['username']), 'info')
 		log('Password: ' + str(device_information['password']), 'info')
 		log('OS: ' + str(device_information['os']), 'info')
 	else:

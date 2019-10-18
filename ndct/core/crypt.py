@@ -3,6 +3,7 @@ import os
 import hashlib
 import json
 
+from ast import literal_eval
 from getpass import getpass
 from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
