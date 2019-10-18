@@ -17,13 +17,13 @@ def decrypt(filename):
 	'''
 	key = Crypt.generate_key()
 
-	with open('../core/data' + filename + '.encrypted', 'rb') as encrypted_file:
+	with open('../core/db/' + filename + '.encrypted', 'rb') as encrypted_file:
 		data = encrypted_file.read()
 
 	fernet = Fernet(key)
 	decrypted_data = literal_eval(fernet.decrypt(data).decode())
 
-	with open('../core/data' + filename + '.decrypted', 'w') as decrypted_file:
+	with open('../core/db/' + filename + '.decrypted', 'w') as decrypted_file:
 		json.dump(decrypted_data, decrypted_file, indent=4)
 
 	log('Generated decrypted file {}.decrypted'.format(filename), 'info')

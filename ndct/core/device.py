@@ -37,8 +37,8 @@ class Device():
 		Summary:
 		Gets device data from an encrypted file.
 		'''
-		if os.path.isfile('data/devices.encrypted'):
-			devices_temp_file = Crypt.get_encrypted_file_contents('data/devices.encrypted')
+		if os.path.isfile('db/devices.encrypted'):
+			devices_temp_file = Crypt.get_encrypted_file_contents('db/devices.encrypted')
 			for device in devices_temp_file:
 				device_object = Device(
 					device['name'], 
@@ -89,8 +89,8 @@ class Device():
 	def real_decorator(function):
 		def wrapper():
 			if get == True:
-				if os.path.isfile('/data/devices.encrypted'):
-					devices_temp_file = Crypt.get_encrypted_file_contents('/data/devices.encrypted')
+				if os.path.isfile('/db/devices.encrypted'):
+					devices_temp_file = Crypt.get_encrypted_file_contents('/db/devices.encrypted')
 					for device in devices_temp_file:
 						device_object = Device(
 							device['name'], 
@@ -111,7 +111,7 @@ class Device():
 					for device_name, device_object in device.items():
 						devices_to_save.append(device_object.all())
 
-				Crypt.create_encrypted_file('/data/devices', devices_to_save)
+				Crypt.create_encrypted_file('/db/devices', devices_to_save)
 
 				log('Saved devices to file', 'info')
 		return wrapper
