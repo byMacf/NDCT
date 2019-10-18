@@ -70,8 +70,8 @@ class Deployment:
 		Summary:
 		Gets deployment data from an encrypted file.
 		'''
-		if os.path.isfile('db/deployments.encrypted'):
-			deployments_temp_file = Crypt.get_encrypted_file_contents('db/deployments.encrypted')
+		if os.path.isfile('db/deployments'):
+			deployments_temp_file = Crypt.get_encrypted_file_contents('db/deployments')
 			for deployment in deployments_temp_file:
 				deployment_object = Deployment(
 					deployment['name'], 

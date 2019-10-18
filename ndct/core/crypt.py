@@ -51,7 +51,7 @@ class Crypt:
 		fernet = Fernet(key)
 		encrypted_data = fernet.encrypt(str(data).encode())
 		
-		with open('db/' + filename + '.encrypted', 'wb') as encrypted_file:
+		with open('Documents/Python/NDCT/ndct/core/db/' + filename, 'wb') as encrypted_file:
 			encrypted_file.write(encrypted_data)
 
 	@staticmethod
@@ -68,7 +68,7 @@ class Crypt:
 		'''
 		key = Crypt.generate_key()
 
-		with open('db/' + filename + '.encrypted', 'rb') as encrypted_file:
+		with open('Documents/Python/NDCT/ndct/core/db/' + filename, 'rb') as encrypted_file:
 			data = encrypted_file.read()
 
 		fernet = Fernet(key)
