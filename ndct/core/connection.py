@@ -1,4 +1,5 @@
 from netmiko import Netmiko
+from pythonping import ping
 from ndct.core.device import Device
 from ndct.core.log import log
 
@@ -16,11 +17,13 @@ class Connection(Device):
     def get_connection(self):
         '''
 		Summary:
-		Creates an SSH connection to a device.
+		Tests device connectivity then creates an SSH connection if successful.
 
         Returns:
         Connection object
 	    '''
+        print('Add pythonping here')
+
         connection = Netmiko(
 		    self.ip,
 		    username=self.user,
