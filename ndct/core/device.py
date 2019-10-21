@@ -83,35 +83,3 @@ class Device():
 				return device_information
 
 		return None
-
-'''def device_decorator(get=False, save=False):
-	def real_decorator(function):
-		def wrapper():
-			if get == True:
-				if os.path.isfile('Documents/Python/NDCT/ndct/core/db/devices'):
-					devices_temp_file = Crypt.get_encrypted_file_contents('devices')
-					for device in devices_temp_file:
-						device_object = Device(
-							device['name'], 
-							device['ip'], 
-							device['username'], 
-							device['password'], 
-							device['os']
-						)
-						devices.append({device['name']: device_object})
-						log('Got devices from file', 'info')
-				else:
-					log('No devices to get from file', 'info')
-			function()
-			if save == True:
-				devices_to_save = []
-
-				for device in devices:
-					for device_name, device_object in device.items():
-						devices_to_save.append(device_object.all())
-
-				Crypt.create_encrypted_file('devices', devices_to_save)
-
-				log('Saved devices to file', 'info')
-		return wrapper
-	return real_decorator'''
