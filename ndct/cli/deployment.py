@@ -6,7 +6,7 @@ from ndct.core.log import log
     
 @click.command(short_help = 'Add a deployment')
 @click.option('-n', '--name', help = 'Name', required = True)
-@click.option('-t', '--targets', help = 'Devices to deploy to', required = True)
+@click.option('-t', '--targets', help = 'Devices to deploy to', required = True) # This is a string not a list.
 @click.option('-a', '--action', type = click.Choice(['collect', 'push', 'get']), help = 'Deployment action', required = True)
 @click.option('-att', '--attribute', type = click.Choice(['bgp', 'ospf', 'eigrp', 'interfaces', 'routes']), help = 'Attribute to get from device(s)')
 def add(name, targets, action, attribute):
