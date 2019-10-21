@@ -22,18 +22,23 @@ class Connection(Device):
         Returns:
         Connection object
 	    '''
-        print('Add pythonping here')
+        ping_result = ping(self.ip, count=1)
 
-        connection = Netmiko(
-		    self.ip,
-		    username=self.user,
-		    password=self.password,
-		    device_type=self.os
-        )
+        if 'Request timed out' not in str(ping_result):
+	        log('{} reachable, getting connection...'.format(self.name), 'info')
 
-        log('Got connection to {}'.format(self.name), 'info')
+            connection = Netmiko(
+		        self.ip,
+		        username=self.user,
+		        password=self.password,
+		        device_type=self.os
+            )
 
-        return connection
+            log('Got connection to {}'.format(self.name), 'info')
+            return connection
+        else:
+	        log('{} not reachable'.format(self.name), 'info')
+            return
 
     def close_connection(self, connection):
         '''
