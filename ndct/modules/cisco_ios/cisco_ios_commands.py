@@ -1,0 +1,3 @@
+commands = {
+    'config': 'show run'
+}
