@@ -145,7 +145,8 @@ class Configuration:
 				'bgp': 'show ip bgp summary',
 				'ospf': 'show ip ospf summary',
 				'interfaces': 'show ip int brief',
-				'routes': 'show ip route'
+				'routes': 'show ip route',
+				'config': 'show run'
 			},
 			'cisco_nxos': {
 				'bgp': 'show ip bgp summary'
