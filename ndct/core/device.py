@@ -79,8 +79,7 @@ class Device():
 		'''
 		for device in devices:
 			if device_name in device:
-				device_information = device[device_name].all()
-
+				device_information = device[device_name].all() #problem here
 				return device_information
 
 		return None

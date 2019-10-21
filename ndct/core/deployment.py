@@ -41,7 +41,7 @@ class Deployment:
 		Summary:
 		Runs a deployment.
 		'''
-		log('Running {} deployment'.format(self.name))
+		log('Running {} deployment'.format(self.name), 'info')
 
 		self.status = 'In progress'
 		log('Updated deployment status to In progress', 'info')

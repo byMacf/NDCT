@@ -77,16 +77,16 @@ def diff(config1, config2):
 	Summary:
 	Creates and outputs the difference between two device configuration files by comparing them line by line.
 	'''
-	config1_lines = open('../core/device_configuration/' + config_1).read().splitlines()
-	config2_lines = open('../core/device_configuration/' + config_2).read().splitlines()
+	config1_lines = open('Documents/Python/NDCT/ndct/core/device_configuration/' + config1).read().splitlines()
+	config2_lines = open('Documents/Python/NDCT/ndct/core/device_configuration' + config2).read().splitlines()
 	diff = difflib.unified_diff(config1_lines, config2_lines)
 
-	log('Diff for [{}] < > [{}]'.format(config_1, config_2), 'info')
+	log('Diff for [{}] < > [{}]'.format(config1, config2), 'info')
 	for line in diff:
 		if line[0] == '+' and line[1] != '+':
-			log('\033[0;32m {}\033[m'.format(line))
+			log('\033[0;32m {}\033[m'.format(line), 'info')
 		elif line[0] == '-' and line[1] != '-': 
-			log('\033[0;31m {}\033[m'.format(line))
+			log('\033[0;31m {}\033[m'.format(line), 'info')
 
 @click.group(short_help = 'Configuration operations')
 def configuration():

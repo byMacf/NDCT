@@ -1,4 +1,5 @@
 import click
+import json
 
 from ast import literal_eval
 from cryptography.fernet import Fernet
@@ -17,13 +18,13 @@ def decrypt(filename):
 	'''
 	key = Crypt.generate_key()
 
-	with open('../core/db/' + filename + '.encrypted', 'rb') as encrypted_file:
+	with open('Documents/Python/NDCT/ndct/core/db/' + filename, 'rb') as encrypted_file:
 		data = encrypted_file.read()
 
 	fernet = Fernet(key)
 	decrypted_data = literal_eval(fernet.decrypt(data).decode())
 
-	with open('../core/db/' + filename + '.decrypted', 'w') as decrypted_file:
+	with open('Documents/Python/NDCT/ndct/core/db/' + filename + '.decrypted', 'w') as decrypted_file:
 		json.dump(decrypted_data, decrypted_file, indent=4)
 
 	log('Generated decrypted file {}.decrypted'.format(filename), 'info')

@@ -1,6 +1,7 @@
 import click
 
 from ndct.core.deployment import Deployment, deployments
+from ndct.core.device import Device, devices
 from ndct.core.log import log
     
 @click.command(short_help = 'Add a deployment')
@@ -34,7 +35,7 @@ def remove(name):
 	for deployment in deployments:
 		if name in deployment:
 			deployments.remove(deployment)
-			log('Deployment {} removed successfully'.format(name))
+			log('Deployment {} removed successfully'.format(name), 'info')
 			Deployment.save_deployments_to_file()
 			return
 	
@@ -69,6 +70,7 @@ def run(name):
 	Summary:
 	Calls the run method on a Deployment object.
 	'''
+	Device.get_devices_from_file()
 	Deployment.get_deployments_from_file()
 	for deployment in deployments:
 		if name in deployment:

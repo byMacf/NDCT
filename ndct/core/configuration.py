@@ -6,7 +6,7 @@ from ndct.core.log import log
 class Configuration:
 	@staticmethod
 	def generate_yaml(device):
-		log('Generated YAML file for {}'.format(device))
+		log('Generated YAML file for {}'.format(device), 'info')
 
 	@staticmethod
 	def mark_config_deployed(device):
@@ -133,7 +133,7 @@ class Configuration:
 		'''
 		device_information = Device.get_device_information(device)
 
-		connection_object = Connection(device_information['name'], device_information['ip'], device_information['user'], device_information['password'], device_information['os'])
+		connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
 		attribute_commands = {
 			'juniper': {
 				'bgp': 'show bgp summary',
