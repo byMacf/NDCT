@@ -6,7 +6,8 @@ from ndct.core.log import log
     
 @click.command(short_help = 'Add a deployment')
 @click.option('-n', '--name', help = 'Name', required = True)
-@click.option('-t', '--targets', help = 'Devices to deploy to', required = True) # This is a string not a list.
+@click.option('-t', '--targets', nargs = 0, help = 'Devices to deploy to', required = True)
+@click.argument('targets', nargs = -1)
 @click.option('-a', '--action', type = click.Choice(['collect', 'push', 'get']), help = 'Deployment action', required = True)
 @click.option('-att', '--attribute', type = click.Choice(['bgp', 'ospf', 'eigrp', 'interfaces', 'routes']), help = 'Attribute to get from device(s)')
 def add(name, targets, action, attribute):
@@ -16,10 +17,10 @@ def add(name, targets, action, attribute):
 	'''
 	Deployment.get_deployments_from_file()
 	if attribute:
-		deployment_object = Deployment(name, targets, action, attribute=attribute)
+		deployment_object = Deployment(name, list(targets), action, attribute=attribute)
 		deployments.append({name: deployment_object})
 	else:
-		deployment_object = Deployment(name, targets, action)
+		deployment_object = Deployment(name, list(targets), action)
 		deployments.append({name: deployment_object})
 	log('Deployment {} with ID {} added successfully'.format(name, deployment_object.deployment_id), 'info')
 	Deployment.save_deployments_to_file()
