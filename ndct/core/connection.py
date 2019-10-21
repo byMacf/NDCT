@@ -34,7 +34,7 @@ class Connection(Device):
 		        device_type=self.os
             )
 
-            log('Got connection to {}'.format(self.name), 'info')
+            log('Connected to {}'.format(self.name), 'info')
             return connection
         else:
 	        log('{} not reachable'.format(self.name), 'info')
@@ -47,4 +47,4 @@ class Connection(Device):
 	    '''
         connection.disconnect()
 
-        log('Closed connection to {}'.format(self.name), 'info')
+        log('Disconnected from {}'.format(self.name), 'info')
