@@ -9,6 +9,8 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from ndct.core.key import KEY_PATH
+from ndct.core.log import log
 
 class Crypt:
 	@staticmethod
@@ -22,20 +24,48 @@ class Crypt:
 
 			Encryption type: 128-bit AES
 		'''
-		password = getpass(prompt='Encryption key password: ')
-		password_bytes = password.encode()
-		salt = hashlib.md5(password_bytes).digest()
-		kdf = PBKDF2HMAC(
-			algorithm=hashes.SHA256(),
-			length=32,
-			salt=salt,
-			iterations=100000,
-			backend=default_backend()
-		)
-		key = base64.urlsafe_b64encode(kdf.derive(password_bytes))
+		if os.path.isfile('Documents/Python/NDCT/ndct/core/db/key.key'):
+			log('Using existing key in {} for encryption/decryption'.format(KEY_PATH), 'info')
+			key = Crypt.get_key()
+
+			return key
+		else:
+			log('No encryption key stored in {}, create a new key or add an existing one'.format(KEY_PATH), 'info')
+
+			password = getpass(prompt='New encryption key password: ')
+			password_bytes = password.encode()
+			salt = hashlib.md5(password_bytes).digest()
+			kdf = PBKDF2HMAC(
+				algorithm=hashes.SHA256(),
+				length=32,
+				salt=salt,
+				iterations=100000,
+				backend=default_backend()
+			)
+			key = base64.urlsafe_b64encode(kdf.derive(password_bytes))
+
+			with open(KEY_PATH, 'wb') as encryption_key:
+				encryption_key.write(key)
+
+			log('Stored encryption key in {}'.format(KEY_PATH), 'info')
+
+			return key
+	
+	@staticmethod
+	def get_key():
+		'''
+			Summary:
+			Get encryption key from file
+
+			Returns:
+			Encryption key
+
+			Encryption type: 128-bit AES
+		'''
+		with open(KEY_PATH, 'rb') as encryption_key:
+			key = encryption_key.read()
 
 		return key
-		#Update this to store the key after it's entered once & delete the key on script end
 
 	@staticmethod
 	def create_encrypted_file(filename, data):
