@@ -9,84 +9,86 @@ A configuration tool for efficient network device management.
   
 ###### Deployments
   - Push configuration
-    - Pre-checks
-    - Post-checks
   - Pull configuration
   - Get device information
-  - OS upgrade
   
-###### Multiple interfaces
+###### Interface
   - CLI
-  - Web GUI
   
 ###### Data file encryption
+  - AES 128-bit
 
 ###### Full operation logging
 
 # Libraries
-> argparse | os | difflib | yaml | netmiko | jinja2 | datetime | logging | sys | base64 | hashlib | json | ast | getpass | cryptography | time | uuid | multiprocessing | 
+> argparse | os | difflib | yaml | netmiko | jinja2 | datetime | logging | sys | base64 | hashlib | json | ast | getpass | cryptography | time | uuid | multiprocessing | pythonping
 
 # Installation
 ```
+  $ cd NDCT
   $ python3 setup.py install
 ```
 
 # Commands
 ```
-  $ cd NDCT/ndct/bin/
-  $ ./cli.py <command>
+  $ ndct _____
+  
+  configuration  Configuration operations
+  crypt          Crypt operations
+  deployment     Deployment operations
+  device         Device operations
 ```
-add-device
+Add device
 
-add-device -n MyDevice -i 192.168.1.1 -u username -p password -o juniper|cisco_ios|cisco_nxos|cisco_asa
+ndct device add -n MyDevice -i 192.168.1.1 -u username -p password -o juniper|cisco_ios|cisco_nxos|cisco_asa
 ***
 
-add-deployment
+Add deployment
 
-add-deployment -n MyDeployment -t MyDevice1 MyDevice2 -a push|pull|get -att bgp|interfaces|ospf|routes|None
+ndct deployment add -n MyDeployment -t MyDevice1 MyDevice2 -a push|pull|get -att bgp|interfaces|ospf|routes|config
 ***
 
-remove-device
+Remove device
 
-remove-device -n MyDevice
+ndct device remove -n MyDevice
 ***
 
-remove-deployment
+Remove deployment
 
-remove-deployment -n MyDeployment
+ndct deployment remove -n MyDeployment
 ***
 
-view-device
+View device
 
-view-device -n MyDevice
+ndct device view -n MyDevice
 ***
 
-view-deployment
+View deployment
 
-view-deployment -n MyDeployment
+ndct deployment view -n MyDeployment
 ***
 
-list-stored-configuration
+List stored configuration
 
-list-stored-configuration -a
+ndct configuration display
 ***
 
-run-deployment
+Run deployment
 
-run-deployment -n MyDeployment
+ndct deployment run -n MyDeployment
 ***
 
-config-diff
+Config diff
 
-config-diff -c1 MyDevice_cisco_ios_verified.txt -c2 MyDevice_cisco_ios_generated.txt
+ndct configuration diff -c1 MyDevice_cisco_ios_verified.txt -c2 MyDevice_cisco_ios_generated.txt
 ***
 
-generate-config
+Generate config
 
-generate-config -n MyDevice -o cisco_ios
+ndct configuration generate -n MyDevice 
 ***
 
-mark-config-verified
+Verify config
 
-mark-config-verified -n MyDevice
+ndct configuration verify -n MyDevice  -n MyDevice
 ***
