@@ -31,10 +31,3 @@ def log(log_message, level):
         logger.addHandler(stream_handler)
 
     log_message_types[level](log_message)
-
-def get_log_file():
-    logger = logging.getLogger('ndct-logger')
-    handler = logger.handlers[0]
-    log_file = handler.baseFilename
-
-    return log_file
