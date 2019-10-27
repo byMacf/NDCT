@@ -16,7 +16,7 @@ def decrypt(filename):
 		Takes: 
 		filename:         		Name of decrypted file
 	'''
-	key = Crypt.generate_key()
+	key = Crypt.get_key()
 
 	with open('Documents/Python/NDCT/ndct/core/db/' + filename, 'rb') as encrypted_file:
 		data = encrypted_file.read()
