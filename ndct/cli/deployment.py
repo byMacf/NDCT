@@ -7,21 +7,16 @@ from ndct.core.log import log
 @click.command(short_help = 'Add a deployment')
 @click.option('-n', '--name', help = 'Name', required = True)
 @click.option('-t', '--targets', nargs = 0, help = 'Devices to deploy to', required = True)
-@click.option('-a', '--action', type = click.Choice(['collect', 'push', 'get']), help = 'Deployment action', required = True)
-@click.option('-att', '--attribute', type = click.Choice(['bgp', 'ospf', 'eigrp', 'interfaces', 'routes', 'config']), help = 'Attribute to get from device(s)')
+@click.option('-a', '--action', type = click.Choice(['routes']), help = 'Deployment action', required = True)
 @click.argument('targets', nargs = -1)
-def add(name, targets, action, attribute):
+def add(name, targets, action):
 	'''
 	Summary:
 	Adds a deployment.
 	'''
 	Deployment.get_deployments_from_file()
-	if attribute:
-		deployment_object = Deployment(name, list(targets), action, attribute=attribute)
-		deployments.append({name: deployment_object})
-	else:
-		deployment_object = Deployment(name, list(targets), action)
-		deployments.append({name: deployment_object})
+	deployment_object = Deployment(name, list(targets), action)
+	deployments.append({name: deployment_object})
 	log('Deployment {} with ID {} added successfully'.format(name, deployment_object.deployment_id), 'info')
 	Deployment.save_deployments_to_file()
 
@@ -58,8 +53,6 @@ def view(name):
 			log('Action: ' + str(deployment_dict['action']), 'info')
 			log('ID: ' + str(deployment_dict['deployment_id']), 'info')
 			log('Status: ' + str(deployment_dict['status']), 'info')
-			if deployment_dict['attribute'] != None:
-				log('Attribute: ' + str(deployment_dict['attribute']), 'info')
 			return
 	
 	log('Deployment {} does not exist'.format(name), 'error')

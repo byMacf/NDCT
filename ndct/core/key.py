@@ -1,1 +1,0 @@
-KEY_PATH = 'Documents/Python/NDCT/ndct/core/db/key.key'

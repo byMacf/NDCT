@@ -9,7 +9,7 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from ndct.core.key import KEY_PATH
+from ndct.core.paths import KEY_PATH
 from ndct.core.log import log
 
 class Crypt:

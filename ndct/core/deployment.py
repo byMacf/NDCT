@@ -9,7 +9,7 @@ from ndct.core.log import log
 deployments = []
 
 class Deployment:
-	def __init__(self, name, targets, action, deployment_id=str(uuid.uuid4()), status='Not started', attribute=None):
+	def __init__(self, name, targets, action, deployment_id=str(uuid.uuid4()), status='Not started'):
 		'''
 		Takes: 
         name:           		Deployment name
@@ -24,7 +24,6 @@ class Deployment:
 		self.action = action
 		self.deployment_id = deployment_id
 		self.status = status 
-		self.attribute = attribute 
 
 	def all(self):
 		'''
@@ -45,13 +44,8 @@ class Deployment:
 
 		self.status = 'In progress'
 		log('Updated deployment status to In progress', 'info')
-		
-		if self.action == 'collect':
-			device_processes = [Process(target=Configuration.collect_config, args=(target_device)) for target_device in self.targets]
-		elif self.action == 'push':
-			device_processes = [Process(target=Configuration.push_config, args=(target_device)) for target_device in self.targets]
-		elif self.action == 'get':
-			device_processes = [Process(target=Configuration.get_attribute, args=(target_device, self.attribute)) for target_device in self.targets]
+		#Add attribute for function arg
+		device_processes = [Process(target=Configuration.send_command_to_device, args=(target_device, 'routes')) for target_device in self.targets]
 
 		for _process in device_processes:
 			_process.start()
@@ -79,7 +73,6 @@ class Deployment:
 					deployment['action'], 
 					deployment_id=deployment['deployment_id'],
 					status=deployment['status'],
-					attribute=deployment.get('attribute')
 				)
 				deployments.append({deployment['name']: deployment_object})
 
