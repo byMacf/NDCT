@@ -5,10 +5,12 @@ from ndct.cli import device
 from ndct.cli import deployment
 from ndct.cli import configuration
 from ndct.core.banner import banner
+from ndct.core.modules import get_modules
 
 @click.group()
 def main():
     banner()
+    get_modules()
 
 main.add_command(crypt.crypt, name = 'crypt')
 main.add_command(device.device, name = 'device')
