@@ -11,17 +11,20 @@ class Configuration:
 	def send_command_to_device(device, command):
 		device_information = Device.get_device_information(device)
 
-		with open(MODULE_PATH + '/' + device_information['os'] + '/commands.json') as command_list_from_file:
-			command_list = json.load(command_list_from_file)
+		if command == 'custom':
+			with open(MODULE_PATH + '/' + device_information['os'] + '/commands.json') as command_list_from_file:
+				command_list = json.load(command_list_from_file)
 
-		connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
-		device_connection = connection_object.get_connection()
+			connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
+			device_connection = connection_object.get_connection()
 
-		output = device_connection.send_command(command_list['commands'][command])
+			output = device_connection.send_command(command_list['commands'][command])
 
-		print(output)
+			log(output, 'info')
 
-		connection_object.close_connection(device_connection)
+			connection_object.close_connection(device_connection)
+		else:
+			pass
 
 	@staticmethod
 	def generate_yaml(device):
