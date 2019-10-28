@@ -2,7 +2,6 @@ import os
 
 from ndct.core.paths import MODULE_PATH
 from ndct.core.log import log
-from ndct.modules import *
 
 def get_modules():
     log('Getting modules...', 'info')
