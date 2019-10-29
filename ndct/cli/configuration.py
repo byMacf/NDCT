@@ -4,7 +4,6 @@ import difflib
 import yaml
 
 from jinja2 import Environment, FileSystemLoader
-from ndct.core.configuration import Configuration
 from ndct.core.device import Device
 from ndct.core.log import log
 from ndct.core.paths import METADATA_PATH, MODULE_PATH, CONFIG_PATH
