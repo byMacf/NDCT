@@ -44,7 +44,7 @@ class Deployment:
 
 		self.status = 'In progress'
 		log('Updated deployment status to In progress', 'info')
-		#Add attribute for function arg
+		
 		device_processes = [Process(target=Configuration.send_command_to_device, args=(target_device, self.action)) for target_device in self.targets]
 
 		for _process in device_processes:
