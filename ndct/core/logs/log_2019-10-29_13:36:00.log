@@ -1,0 +1,27 @@
+2019-10-29 13:36:00,280 [INFO] Getting modules...
+2019-10-29 13:36:00,280 [INFO] Got module "juniper"
+2019-10-29 13:36:00,281 [INFO] Got module "cisco_ios"
+2019-10-29 13:36:00,284 [INFO] Using existing key in Documents/Python/NDCT/ndct/core/db/key.key for encryption/decryption
+2019-10-29 13:36:00,287 [INFO] Got devices from file
+2019-10-29 13:36:00,287 [INFO] Using existing key in Documents/Python/NDCT/ndct/core/db/key.key for encryption/decryption
+2019-10-29 13:36:00,290 [INFO] Got deployments from file
+2019-10-29 13:36:00,290 [INFO] Running TestCustom deployment
+2019-10-29 13:36:00,290 [INFO] Updated deployment status to In progress
+2019-10-29 13:36:00,307 [INFO] R1 reachable, getting connection...
+2019-10-29 13:36:04,840 [INFO] Connected to R1
+2019-10-29 13:36:05,446 [INFO]             Protocol
+FastEthernet0/0        192.168.21.201  YES NVRAM  up                    up      
+Ethernet1/0            unassigned      YES NVRAM  administratively down down    
+Ethernet1/1            unassigned      YES NVRAM  administratively down down    
+Ethernet1/2            unassigned      YES NVRAM  administratively down down    
+Ethernet1/3            unassigned      YES NVRAM  administratively down down    
+R1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#router ospf 1 
+R1(config-router)#network 192.168.21.0 0.0.0.255 area 0
+
+2019-10-29 13:36:05,785 [INFO] Disconnected from R1
+2019-10-29 13:36:05,789 [INFO] Updated deployment status to Completed
+2019-10-29 13:36:05,790 [INFO] Deployment TestCustom completed
+2019-10-29 13:36:05,791 [INFO] Using existing key in Documents/Python/NDCT/ndct/core/db/key.key for encryption/decryption
+2019-10-29 13:36:05,794 [INFO] Saved deployments to file

@@ -19,7 +19,7 @@ def add(name, ip, username, password, os):
 	for device in devices:
 		if name in device:
 			log('Cannot add {}, device already exists'.format(name), 'info')
-			sys.exit(0)
+			sys.exit(1)
 	device_object = Device(name, ip, username, password, os)
 	devices.append({name: device_object})
 	log('Device {} added successfully'.format(name), 'info')

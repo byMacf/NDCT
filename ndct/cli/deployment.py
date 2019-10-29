@@ -19,7 +19,7 @@ def add(name, targets, action):
 	for deployment in deployments:
 		if name in deployment:
 			log('Cannot add {}, deployment already exists'.format(name), 'info')
-			sys.exit(0)
+			sys.exit(1)
 	deployment_object = Deployment(name, list(targets), action)
 	deployments.append({name: deployment_object})
 	log('Deployment {} with ID {} added successfully'.format(name, deployment_object.deployment_id), 'info')

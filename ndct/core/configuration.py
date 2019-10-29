@@ -10,15 +10,14 @@ class Configuration:
 	@staticmethod
 	def send_command_to_device(device, command):
 		device_information = Device.get_device_information(device)
-
 		if command == 'custom':
-			with open(MODULE_PATH + '/' + device_information['os'] + '/commands.json') as command_list_from_file:
-				command_list = json.load(command_list_from_file)
+			with open(CONFIG_PATH + device + '_custom_commands.txt') as custom_commands_from_file:
+				command_list = custom_commands_from_file.read()
 
 			connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
 			device_connection = connection_object.get_connection()
 
-			#output = device_connection.send_command(command_list['commands'][command])
+			output = device_connection.send_command(command_list)
 
 			print('\n')
 			log(output + '\n', 'info')
