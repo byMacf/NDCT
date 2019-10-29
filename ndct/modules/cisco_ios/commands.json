@@ -2,7 +2,7 @@
     "commands": 
     {
         "term_length": "terminal length 0",
-        "configuration": "show run",
+        "config": "show run",
         "interfaces": "show ip interfaces",
         "bgp_neighbor": "show ip bgp neighbor",
         "bgp_summary": "show ip bgp summary",
