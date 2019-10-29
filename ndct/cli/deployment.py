@@ -1,4 +1,5 @@
 import click
+import sys
 
 from ndct.core.deployment import Deployment, deployments
 from ndct.core.device import Device, devices
@@ -15,6 +16,10 @@ def add(name, targets, action):
 	Adds a deployment.
 	'''
 	Deployment.get_deployments_from_file()
+	for deployment in deployments:
+		if name in deployment:
+			log('Cannot add {}, deployment already exists'.format(name), 'info')
+			sys.exit(0)
 	deployment_object = Deployment(name, list(targets), action)
 	deployments.append({name: deployment_object})
 	log('Deployment {} with ID {} added successfully'.format(name, deployment_object.deployment_id), 'info')

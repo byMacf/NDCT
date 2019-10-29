@@ -1,4 +1,5 @@
 import click
+import sys
 
 from ndct.core.device import Device, devices
 from ndct.core.log import log
@@ -15,6 +16,10 @@ def add(name, ip, username, password, os):
 	Adds a device.
 	'''
 	Device.get_devices_from_file()
+	for device in devices:
+		if name in device:
+			log('Cannot add {}, device already exists'.format(name), 'info')
+			sys.exit(0)
 	device_object = Device(name, ip, username, password, os)
 	devices.append({name: device_object})
 	log('Device {} added successfully'.format(name), 'info')
