@@ -5,41 +5,35 @@ import yaml
 
 from jinja2 import Environment, FileSystemLoader
 from ndct.core.configuration import Configuration
+from ndct.core.device import Device
 from ndct.core.log import log
+from ndct.core.paths import METADATA_PATH, MODULE_PATH, CONFIG_PATH
 
 @click.command(short_help = 'Generate a configuration')
 @click.option('-n', '--name', help='Name', required = True)
-@click.option('-os', '--os', help='Operating system', required = True)
-def generate(name, os):
+def generate(name):
 	'''
 	Summary:
-	Generates a configuration file for a specified device of a specified operating system.
+	Generates a configuration file for a specified device.
 	'''
-	for device in name:
-		with open('../core/device_metadata/' + name + '_metadata.yaml', 'r') as metadata:
-			device_metadata = (yaml.safe_load(metadata))
+	Device.get_devices_from_file()
 
-		environments = {
-			'juniper': '../core/os/juniper/',
-			'cisco_ios': '../core/os/cisco_ios/',
-			'cisco_nxos': '../core/os/cisco_nxos/',
-			'cisco_asa': '../core/os/cisco_asa/'
-		}
-		j2_env = Environment(loader=FileSystemLoader(environments[os]), trim_blocks=True, lstrip_blocks=True)
-		configuration_templates = {
-			'juniper': 'generate_juniper_config.j2',
-			'cisco_ios': 'generate_cisco_ios_config.j2',
-			'cisco_nxos': 'generate_cisco_nxos_config.j2',
-			'cisco_asa': 'generate_cisco_asa_config.j2'
-		}
+	with open(METADATA_PATH + name + '_metadata.yaml', 'r') as metadata:
+		device_metadata = (yaml.safe_load(metadata))
 
-		for device, data in device_metadata.items():
-			configuration = j2_env.get_template(configuration_templates[os]).render(data)
-			
-		with open('../core/device_configuration/' + name + '_' + os + '_generated.txt', 'w') as generated_config_file:
-			generated_config_file.write(configuration)
+	device_os = Device.get_device_information(name)['os']
 
-		log('Generated {} configuration for {}'.format(name, os), 'info')
+	environment = MODULE_PATH + device_os + '/'
+
+	j2_env = Environment(loader=FileSystemLoader(environment), trim_blocks=True, lstrip_blocks=True)
+
+	for device, data in device_metadata.items():
+		configuration = j2_env.get_template('template.j2').render(data)
+		
+	with open(CONFIG_PATH + name + '_generated.txt', 'w') as generated_config_file:
+		generated_config_file.write(configuration)
+
+	log('Generated configuration for {}'.format(name), 'info')
 
 @click.command(short_help = 'Verify a configuration')
 @click.option('-n', '--name', help='Name', required = True)
