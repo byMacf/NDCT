@@ -1,0 +1,33 @@
+2019-10-28 23:54:04,663 [INFO] Getting modules...
+2019-10-28 23:54:04,663 [INFO] Got module "juniper"
+2019-10-28 23:54:04,663 [INFO] Got module "cisco_ios"
+2019-10-28 23:54:04,664 [INFO] Using existing key in Documents/Python/NDCT/ndct/core/db/key.key for encryption/decryption
+2019-10-28 23:54:04,666 [INFO] Got devices from file
+2019-10-28 23:54:04,667 [INFO] Using existing key in Documents/Python/NDCT/ndct/core/db/key.key for encryption/decryption
+2019-10-28 23:54:04,668 [INFO] Got deployments from file
+2019-10-28 23:54:04,668 [INFO] Running Test2 deployment
+2019-10-28 23:54:04,669 [INFO] Updated deployment status to In progress
+2019-10-28 23:54:04,694 [INFO] R1 reachable, getting connection...
+2019-10-28 23:54:06,689 [INFO] R2 not reachable
+2019-10-28 23:54:06,691 [ERROR] Could not send commands to R2, device unreachable
+2019-10-28 23:54:09,372 [INFO] Connected to R1
+2019-10-28 23:54:09,978 [INFO] Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area 
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+       ia - IS-IS inter area, * - candidate default, U - per-user static route
+       o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+       + - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+      192.168.21.0/24 is variably subnetted, 2 subnets, 2 masks
+C        192.168.21.0/24 is directly connected, FastEthernet0/0
+L        192.168.21.201/32 is directly connected, FastEthernet0/0
+
+2019-10-28 23:54:10,088 [INFO] Disconnected from R1
+2019-10-28 23:54:10,092 [INFO] Updated deployment status to Completed
+2019-10-28 23:54:10,093 [INFO] Deployment Test2 completed
+2019-10-28 23:54:10,093 [INFO] Using existing key in Documents/Python/NDCT/ndct/core/db/key.key for encryption/decryption
+2019-10-28 23:54:10,096 [INFO] Saved deployments to file

@@ -26,18 +26,22 @@ class Configuration:
 			connection_object.close_connection(device_connection)
 
 		elif command == 'routes':
-			with open(MODULE_PATH + '/' + device_information['os'] + '/commands.json') as command_list_from_file:
-				command_list = json.load(command_list_from_file)
+			try: 
+				with open(MODULE_PATH + '/' + device_information['os'] + '/commands.json') as command_list_from_file:
+					command_list = json.load(command_list_from_file)
 
-			connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
-			device_connection = connection_object.get_connection()
+				connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
+				device_connection = connection_object.get_connection()
 
-			output = device_connection.send_command(command_list['commands'][command])
+				output = device_connection.send_command(command_list['commands'][command])
 
-			print('\n')
-			log(output + '\n', 'info')
+				print('\nOutput from {}\n'.format(device))
+				log(output + '\n', 'info')
 
-			connection_object.close_connection(device_connection)
+				connection_object.close_connection(device_connection)
+				
+			except AttributeError:
+				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 		else:
 			pass
 
