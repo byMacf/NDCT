@@ -2,6 +2,7 @@ import logging
 import sys
 
 from datetime import datetime
+from ndct.core.paths import LOGGING_PATH
 
 def log(log_message, level):
     logger = logging.getLogger('ndct-logger')
@@ -19,8 +20,7 @@ def log(log_message, level):
 
         formatter = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s')
 
-        file_handler = logging.FileHandler('Documents/Python/NDCT/ndct/core/logs/log_' + datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + '.log')
-        #Make this absolute path
+        file_handler = logging.FileHandler(LOGGING_PATH + 'log_' + datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + '.log')
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(formatter)
 
