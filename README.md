@@ -33,10 +33,10 @@ A configuration tool for efficient network device management.
 ```
   $ ndct _____
   
-  configuration  Configuration operations
-  crypt          Crypt operations
-  deployment     Deployment operations
-  device         Device operations
+  configuration  Configuration actions
+  crypt          Crypt actions
+  deployment     Deployment actions
+  device         Device actions
 ```
 Add device
 
