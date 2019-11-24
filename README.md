@@ -21,7 +21,7 @@ A configuration tool for efficient network device management.
 ###### Full operation logging
 
 # Libraries
-> argparse | os | difflib | yaml | netmiko | jinja2 | datetime | logging | sys | base64 | hashlib | json | ast | getpass | cryptography | time | uuid | multiprocessing | pythonping
+> click | os | difflib | yaml | netmiko | jinja2 | datetime | logging | sys | base64 | hashlib | json | ast | getpass | cryptography | time | uuid | multiprocessing | pythonping
 
 # Installation
 ```
