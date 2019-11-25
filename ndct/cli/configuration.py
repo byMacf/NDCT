@@ -36,15 +36,14 @@ def generate(name):
 
 @click.command(short_help = 'Verify a configuration')
 @click.option('-n', '--name', help='Name', required = True)
-@click.option('-os', '--os', help='Operating system', required = True)
-def verify(name, os):
+def verify(name):
 	'''
 	Summary:
 	Marks a generated configuration file as verified, ready to deploy.
 	'''
-	with open(CONFIG_PATH + name + '_' + os + '_generated.txt', 'r') as generated_config_file:
+	with open(CONFIG_PATH + name + '_generated.txt', 'r') as generated_config_file:
 		config_to_verify = generated_config_file.read()
-	with open(CONFIG_PATH + name + '_' + os + '_verified.txt', 'w') as verified_config_file:
+	with open(CONFIG_PATH + name + '_verified.txt', 'w') as verified_config_file:
 		verified_config_file.write(config_to_verify)
 	log('Marked generated configuration for {} as verified'.format(name), 'info')
 
@@ -78,10 +77,14 @@ def diff(config1, config2):
 
 	log('Diff for [{}] < > [{}]'.format(config1, config2), 'info')
 	for line in diff:
+		print(line)
+		'''
 		if line[0] == '+' and line[1] != '+':
 			log('\033[0;32m {}\033[m'.format(line), 'info')
 		elif line[0] == '-' and line[1] != '-': 
 			log('\033[0;31m {}\033[m'.format(line), 'info')
+		'''
+		#Fix this
 
 @click.group(short_help = 'Configuration operations')
 def configuration():
