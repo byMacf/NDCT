@@ -57,8 +57,10 @@ def display():
 	configurations = os.listdir(CONFIG_PATH)
 
 	if configurations:
+		log('Stored configuration files:', 'info')
 		for configuration_file in configurations:
-			log(configuration_file, 'info')
+			if configuration_file != '__init__.py':
+				log(configuration_file, 'info')
 	else:
 		log('No configuration files stored', 'info')
 
