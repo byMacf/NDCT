@@ -42,9 +42,9 @@ def verify(name, os):
 	Summary:
 	Marks a generated configuration file as verified, ready to deploy.
 	'''
-	with open('../core/device_configuration/' + name + '_' + os + '_generated.txt', 'r') as generated_config_file:
+	with open(CONFIG_PATH + name + '_' + os + '_generated.txt', 'r') as generated_config_file:
 		config_to_verify = generated_config_file.read()
-	with open('../core/device_configuration/' + name + '_' + os + '_verified.txt', 'w') as verified_config_file:
+	with open(CONFIG_PATH + name + '_' + os + '_verified.txt', 'w') as verified_config_file:
 		verified_config_file.write(config_to_verify)
 	log('Marked generated configuration for {} as verified'.format(name), 'info')
 
@@ -54,7 +54,7 @@ def display():
 	Summary:
 	Lists all stored configuration files.
 	'''
-	configurations = os.listdir('../core/device_configuration/')
+	configurations = os.listdir(CONFIG_PATH)
 
 	if configurations:
 		for configuration_file in configurations:
@@ -70,8 +70,8 @@ def diff(config1, config2):
 	Summary:
 	Creates and outputs the difference between two device configuration files by comparing them line by line.
 	'''
-	config1_lines = open('Documents/Python/NDCT/ndct/core/device_configuration/' + config1).read().splitlines()
-	config2_lines = open('Documents/Python/NDCT/ndct/core/device_configuration' + config2).read().splitlines()
+	config1_lines = open(CONFIG_PATH + config1).read().splitlines()
+	config2_lines = open(CONFIG_PATH + config2).read().splitlines()
 	diff = difflib.unified_diff(config1_lines, config2_lines)
 
 	log('Diff for [{}] < > [{}]'.format(config1, config2), 'info')
