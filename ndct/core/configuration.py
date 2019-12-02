@@ -86,10 +86,10 @@ class Configuration:
 		'''
 		device_information = Device.get_device_information(device)
 
-		with open('../framework/device_configuration/' + device + '_' + device_information['os'] + '_verified.txt', 'r') as verified_config_file:
+		with open(CONFIG_PATH + device + '_' + device_information['os'] + '_verified.txt', 'r') as verified_config_file:
 			deployed_config = verified_config_file.read()
 
-		with open('../framework/device_configuration/' + device + '_' + device_information['os'] + '_deployed_' + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + '.txt', 'w') as deployed_config_file:
+		with open(CONFIG_PATH + device + '_' + device_information['os'] + '_deployed_' + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + '.txt', 'w') as deployed_config_file:
 			deployed_config_file.write(deployed_config)
 
 		log('Marked verified configuration for {} as deployed'.format(device), 'info')
