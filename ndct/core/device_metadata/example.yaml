@@ -1,0 +1,39 @@
+DEVICE NAME:
+  hostname:
+  interfaces:
+    INTERFACE NAME:
+      ip: 
+      subnet_mask: 
+    INTERFACE NAME:
+      description: 
+      ip: 
+      subnet_mask: 
+    INTERFACE NAME:
+      description: 
+      ip: 
+      subnet_mask: 
+    INTERFACE NAME:
+      description: 
+      ip: 
+      subnet_mask: 
+    INTERFACE NAME:
+      description: 
+      ip: 
+      subnet_mask: 
+
+  bgp:
+    as: 
+    peers: 
+      PEER NAME:
+        neighbor_address: 
+        neighbor_as: 
+      PEER NAME:
+        neighbor_address: 
+        neighbor_as: 
+      PEER NAME:
+        neighbor_address: 
+        neighbor_as: 
+    networks:
+      network1:
+        network_address: 
+        network_mask: 
