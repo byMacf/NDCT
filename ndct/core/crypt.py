@@ -24,7 +24,7 @@ class Crypt:
 
 			Encryption type: 128-bit AES
 		'''
-		if os.path.isfile('Documents/Python/NDCT/ndct/core/db/key.key'):
+		if os.path.isfile(KEY_PATH):
 			log('Using existing key in {} for encryption/decryption'.format(KEY_PATH), 'info')
 			key = Crypt.get_key()
 
