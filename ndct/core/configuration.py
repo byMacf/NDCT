@@ -28,7 +28,7 @@ class Configuration:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 		elif command == 'routes':
 			try: 
-				with open(MODULE_PATH + '/' + device_information['os'] + '/commands.json') as command_list_from_file:
+				with open(MODULE_PATH + device_information['os'] + '/commands.json') as command_list_from_file:
 					command_list = json.load(command_list_from_file)
 
 				connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
@@ -45,7 +45,7 @@ class Configuration:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 		elif command == 'config':
 			try:
-				with open(MODULE_PATH + '/' + device_information['os'] + '/commands.json') as command_list_from_file:
+				with open(MODULE_PATH + device_information['os'] + '/commands.json') as command_list_from_file:
 					command_list = json.load(command_list_from_file)
 				
 				connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
@@ -63,9 +63,6 @@ class Configuration:
 						config_file.write(line + '\n')
 						
 				log('Device configuration stored as {}_latest.txt in {}'.format(device, CONFIG_PATH), 'info')
-
-				#log('Generating device YAML', 'info')
-				#generate_yaml(device)
 			except AttributeError:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 		else:

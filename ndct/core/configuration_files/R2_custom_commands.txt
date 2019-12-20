@@ -1,0 +1,4 @@
+show ip int brief
+conf t
+router ospf 1 
+network 0.0.0.0 0.0.0.0 area 0
