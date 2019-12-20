@@ -34,19 +34,6 @@ def generate(name):
 
 	log('Generated configuration for {}'.format(name), 'info')
 
-@click.command(short_help = 'Verify a configuration')
-@click.option('-n', '--name', help='Name', required = True)
-def verify(name):
-	'''
-	Summary:
-	Marks a generated configuration file as verified, ready to deploy.
-	'''
-	with open(CONFIG_PATH + name + '_generated.txt', 'r') as generated_config_file:
-		config_to_verify = generated_config_file.read()
-	with open(CONFIG_PATH + name + '_verified.txt', 'w') as verified_config_file:
-		verified_config_file.write(config_to_verify)
-	log('Marked generated configuration for {} as verified'.format(name), 'info')
-
 @click.command(short_help = 'List configuration files')
 def display():
 	'''
@@ -91,6 +78,5 @@ def configuration():
 	pass
 
 configuration.add_command(generate)
-configuration.add_command(verify)
 configuration.add_command(display)
 configuration.add_command(diff)

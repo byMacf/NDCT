@@ -24,6 +24,7 @@ class Configuration:
 				log(output + '\n', 'info')
 
 				connection_object.close_connection(device_connection)
+
 			except AttributeError:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 		elif command == 'routes':
@@ -63,10 +64,24 @@ class Configuration:
 						config_file.write(line + '\n')
 						
 				log('Device configuration stored as {}_latest.txt in {}'.format(device, CONFIG_PATH), 'info')
+
 			except AttributeError:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
-		else:
-			pass
+		elif command == 'deploy':
+			try: 
+				connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
+				device_connection = connection_object.get_connection()
+
+				output = device_connection.send_config_from_file(CONFIG_PATH + device + '_generated.txt')
+
+				print('\nOutput from {}\n'.format(device))
+				log(output + '\n', 'info')
+
+				mark_config_deployed(device)
+				connection_object.close_connection(device_connection)
+
+			except AttributeError:
+				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 
 	@staticmethod
 	def generate_yaml(device):
@@ -76,17 +91,17 @@ class Configuration:
 	def mark_config_deployed(device):
 		'''
 			Summary:
-			Marks a verified configuration file as deployed.
+			Marks a generated configuration file as deployed.
 
 			Takes:
 			device:					Device name
 		'''
 		device_information = Device.get_device_information(device)
 
-		with open(CONFIG_PATH + device + '_' + device_information['os'] + '_verified.txt', 'r') as verified_config_file:
-			deployed_config = verified_config_file.read()
+		with open(CONFIG_PATH + device + '_' + device_information['os'] + '_generated.txt', 'r') as generated_config_file:
+			deployed_config = generated_config_file.read()
 
 		with open(CONFIG_PATH + device + '_' + device_information['os'] + '_deployed_' + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + '.txt', 'w') as deployed_config_file:
 			deployed_config_file.write(deployed_config)
 
-		log('Marked verified configuration for {} as deployed'.format(device), 'info')
+		log('Marked generated configuration for {} as deployed'.format(device), 'info')
