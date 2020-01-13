@@ -15,7 +15,7 @@ A configuration tool for efficient network device management.
 ###### Interface
   - CLI
   
-###### Data file encryption
+###### File encryption
   - AES 128-bit
 
 ###### Full operation logging
