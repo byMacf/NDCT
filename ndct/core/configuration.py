@@ -77,15 +77,21 @@ class Configuration:
 				print('\nOutput from {}\n'.format(device))
 				log(output + '\n', 'info')
 
-				mark_config_deployed(device)
+				Configuration.mark_config_deployed(device)
 				connection_object.close_connection(device_connection)
 
 			except AttributeError:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 
 	@staticmethod
-	def generate_yaml(device):
-		log('Generated YAML file for {}'.format(device), 'info')
+	def check_configuration(connection, os, config_line):
+		command_file = MODULE_PATH + os + 'commands.json'
+		configuration = connection.send_command(command_file['commands']['config'])
+
+		if config_line in configuration:
+			log('Config check passed', 'info')
+		else:
+			log('Config check failed, please review deployment log', 'info')
 
 	@staticmethod
 	def mark_config_deployed(device):
