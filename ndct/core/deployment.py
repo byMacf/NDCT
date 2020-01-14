@@ -12,12 +12,12 @@ class Deployment:
 	def __init__(self, name, targets, action, deployment_id=str(uuid.uuid4()), status='Not started'):
 		'''
 		Takes: 
-        name:           		Deployment name
-        targets:                Target devices
-        action:                 Action of deployment
-		deployment_id:          Unique identifier of deployment
-		status:                 Deployment status
-		attribute:              Deployment attribute - for 'get' action deployments
+        name: Deployment name
+        targets: Target devices
+        action: Action of deployment
+		deployment_id: Unique identifier of deployment
+		status: Deployment status
+		attribute: Deployment attribute - for 'get' action deployments
 		'''
 		self.name = name
 		self.targets = targets
@@ -31,7 +31,7 @@ class Deployment:
 		Gets the contents of a Deployment instance.
 
 		Returns:
-		Deployment instance contents in dictionairy form.
+		Deployment instance contents in dictionairy form
 		'''
 		return self.__dict__
 
@@ -62,7 +62,7 @@ class Deployment:
 	def get_deployments_from_file():
 		'''
 		Summary:
-		Gets deployment data from an encrypted file.
+		Gets deployment data from an encrypted file and creates an object stored in the deployments list.
 		'''
 		if os.path.isfile('Documents/Python/NDCT/ndct/core/db/deployments'):
 			deployments_temp_file = Crypt.get_encrypted_file_contents('deployments')

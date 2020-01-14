@@ -14,6 +14,13 @@ def add(name, ip, username, password, os):
 	'''
 	Summary:
 	Adds a device.
+
+	Takes: 
+	name: Name of device
+	ip: Management IP address of device
+	username: Username to authenticate against
+	password: Password to authenticate with
+	os: Operating system of device
 	'''
 	Device.get_devices_from_file()
 	for device in devices:
@@ -32,6 +39,9 @@ def remove(name):
 	'''
 	Summary:
 	Removes a device.
+
+	Takes:
+	name: Name of device to remove
 	'''
 	Device.get_devices_from_file()
 	for device in devices:
@@ -50,6 +60,9 @@ def view(name):
 	'''
 	Summary:
 	Prints attributes of a Device instance.
+
+	Takes: 
+	name: Name of device to view information about
 	'''
 	Device.get_devices_from_file()
 	device_information = Device.get_device_information(name)
@@ -62,7 +75,7 @@ def view(name):
 	else:
 		log('Device {} does not exist'.format(name), 'error')
 
-@click.group(short_help = 'Device operations')
+@click.group(short_help = 'Device commands')
 def device():
 	pass
 

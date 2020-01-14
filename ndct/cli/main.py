@@ -9,6 +9,10 @@ from ndct.core.modules import get_modules
 
 @click.group()
 def main():
+    '''
+    Summary:
+    Groups CLI commands to create the CLI menu.
+    '''
     banner()
     get_modules()
 

@@ -9,11 +9,11 @@ class Device():
 	def __init__(self, name, ip, username, password, os):
 		'''
 		Takes: 
-		name:					Device name 
-		ip:                     IPv4 address of the device
-		user:                   Username to use for device connection
-		password:               Password to use for device connection authentication
-		os:                     Operating system of the device
+		name: Device name 
+		ip: IP address of the device
+		user: Username to use for device connection
+		password: Password to use for device connection authentication
+		os: Operating system of the device
 		'''
 		self.name = name
 		self.ip = ip
@@ -27,7 +27,7 @@ class Device():
 		Gets the contents of a Device instance.
 
 		Returns:
-		Device instance contents in dictionairy form.
+		Device instance contents in dictionairy form
 		'''
 		return self.__dict__
 
@@ -35,7 +35,7 @@ class Device():
 	def get_devices_from_file():
 		'''
 		Summary:
-		Gets device data from an encrypted file.
+		Gets device data from an encrypted file and creates an object stored in the devices list.
 		'''
 		if os.path.isfile('Documents/Python/NDCT/ndct/core/db/devices'):
 			devices_temp_file = Crypt.get_encrypted_file_contents('devices')

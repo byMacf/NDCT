@@ -7,10 +7,10 @@ class Connection(Device):
 	def __init__(self, name, ip, username, password, os):
 		'''
 		Takes: 
-		ip:                     IPv4 address of the device
-		username:               Username to use for device connection
-		password:               Password to use for device connection authentication
-		os:                     Operating system of the device
+		ip: IP address of the device
+		username: Username to authentication against
+		password: Password to authenticate with
+		os: Operating system of the device
 		'''
 		super().__init__(name, ip, username, password, os)
 
@@ -44,6 +44,9 @@ class Connection(Device):
 		'''
 		Summary:
 		Closes an SSH connection to a device.
+
+		Takes:
+		connection: Connection object to close
 		'''
 		connection.disconnect()
 

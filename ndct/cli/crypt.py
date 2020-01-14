@@ -11,10 +11,10 @@ from ndct.core.log import log
 def decrypt(filename):
 	'''
 		Summary:
-		Create a decrypted copy of a file.
+		Create a decrypted copy of a file in JSON format.
 
 		Takes: 
-		filename:         		Name of decrypted file
+		filename: Name of decrypted file
 	'''
 	key = Crypt.get_key()
 
@@ -29,7 +29,7 @@ def decrypt(filename):
 
 	log('Generated decrypted file {}.decrypted'.format(filename), 'info')
 
-@click.group(short_help = 'Crypt operations')
+@click.group(short_help = 'Crypt commands')
 def crypt():
 	pass
 

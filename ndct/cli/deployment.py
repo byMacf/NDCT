@@ -14,6 +14,11 @@ def add(name, targets, action):
 	'''
 	Summary:
 	Adds a deployment.
+
+	Takes:
+	name: Name of deployment
+	targets: Devices to target with the deployment
+	action: Action to perform custom|routes|config|deploy
 	'''
 	Deployment.get_deployments_from_file()
 	for deployment in deployments:
@@ -31,6 +36,9 @@ def remove(name):
 	'''
 	Summary:
 	Removes a deployment.
+
+	Takes:
+	name: Name of deployment to remove
 	'''
 	Deployment.get_deployments_from_file()
 	for deployment in deployments:
@@ -48,6 +56,9 @@ def view(name):
 	'''
 	Summary:
 	Prints attributes of a Deployment instance.
+	
+	Takes:
+	name: Name of deployment to view information about
 	'''
 	Deployment.get_deployments_from_file()
 	for deployment in deployments:
@@ -68,6 +79,9 @@ def run(name):
 	'''
 	Summary:
 	Calls the run method on a Deployment object.
+
+	Takes:
+	name: Name of deployment to run
 	'''
 	Device.get_devices_from_file()
 	Deployment.get_deployments_from_file()
@@ -78,7 +92,7 @@ def run(name):
 			return
 	log('Deployment {} does not exist'.format(name), 'error')
 
-@click.group(short_help = 'Deployment operations')
+@click.group(short_help = 'Deployment commands')
 def deployment():
 	pass
 

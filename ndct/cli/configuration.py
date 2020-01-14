@@ -14,6 +14,9 @@ def generate(name):
 	'''
 	Summary:
 	Generates a configuration file for a specified device.
+
+	Takes: 
+	name: Device to generate configuration for
 	'''
 	Device.get_devices_from_file()
 
@@ -39,6 +42,9 @@ def show():
 	'''
 	Summary:
 	Lists all stored configuration files.
+
+	Takes: 
+	none
 	'''
 	configurations = os.listdir(CONFIG_PATH)
 
@@ -57,6 +63,10 @@ def diff(config1, config2):
 	'''
 	Summary:
 	Creates and outputs the difference between two device configuration files by comparing them line by line.
+
+	Takes:
+	config1: First configuration file
+	config2: Configuration file to compare the first with
 	'''
 	config1_lines = open(CONFIG_PATH + config1).read().splitlines()
 	config2_lines = open(CONFIG_PATH + config2).read().splitlines()
@@ -73,7 +83,7 @@ def diff(config1, config2):
 		'''
 		#Fix this
 
-@click.group(short_help = 'Configuration operations')
+@click.group(short_help = 'Configuration commands')
 def configuration():
 	pass
 

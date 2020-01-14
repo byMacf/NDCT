@@ -5,6 +5,14 @@ from datetime import datetime
 from ndct.core.paths import LOGGING_PATH
 
 def log(log_message, level):
+    '''
+	Summary:
+	Logs information to logfile at the specified level.
+
+    Takes:
+    log_message: Information to log
+    level: Level of which to log the information at
+	'''
     logger = logging.getLogger('ndct-logger')
 
     log_message_types = {

@@ -9,6 +9,14 @@ from ndct.core.paths import MODULE_PATH, CONFIG_PATH
 class Configuration:
 	@staticmethod
 	def send_command_to_device(device, command):
+		'''
+			Summary:
+			Sends command(s) to a device.
+
+			Takes:
+			device: Device to send command(s) to
+			command: Command(s) to send
+		'''
 		device_information = Device.get_device_information(device)
 		if command == 'custom':
 			try:
@@ -85,6 +93,15 @@ class Configuration:
 
 	@staticmethod
 	def check_configuration(connection, os, config_line):
+		'''
+			Summary:
+			Checks if configuration has been pushed to device.
+
+			Takes:
+			connection: Device connection object
+			os: Operating system of device
+			config_line: Configuration to check for
+		'''
 		command_file = MODULE_PATH + os + 'commands.json'
 		configuration = connection.send_command(command_file['commands']['config'])
 
@@ -100,7 +117,7 @@ class Configuration:
 			Marks a generated configuration file as deployed.
 
 			Takes:
-			device:					Device name
+			device: Name of device to mark configuration as deployed for
 		'''
 		device_information = Device.get_device_information(device)
 

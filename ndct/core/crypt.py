@@ -22,7 +22,8 @@ class Crypt:
 			Returns:
 			Encryption key
 
-			Encryption type: 128-bit AES
+			Encryption type: 
+			128-bit AES
 		'''
 		if os.path.isfile(KEY_PATH):
 			log('Using existing key in {} for encryption/decryption'.format(KEY_PATH), 'info')
@@ -55,12 +56,13 @@ class Crypt:
 	def get_key():
 		'''
 			Summary:
-			Get encryption key from file
+			Get stored encryption key.
 
 			Returns:
 			Encryption key
 
-			Encryption type: 128-bit AES
+			Encryption type:
+			128-bit AES
 		'''
 		with open(KEY_PATH, 'rb') as encryption_key:
 			key = encryption_key.read()
@@ -74,8 +76,8 @@ class Crypt:
 			Create an encrypted file from data that is passed to the function.
 
 			Takes: 
-			filename:         		Name of encrypted file
-			data:					Data to encrypt
+			filename: Name of encrypted file
+			data: Data to encrypt
 		'''
 		key = Crypt.generate_key()
 		
@@ -92,7 +94,7 @@ class Crypt:
 			Get the contents of an encrypted file to enable use of the stored data.
 
 			Takes: 
-			filename:         		Name of file to get decrypted contents of
+			filename: Name of file to get decrypted contents of
 
 			Returns:
 			Decrypted file contents 
