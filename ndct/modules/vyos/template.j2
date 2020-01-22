@@ -1,0 +1,26 @@
+{% set subnets = {'255.255.255.0': '24', '255.255.255.255': '32'} %}
+set system host-name {{hostname}}
+{% if interfaces %}
+{% for interface, interface_config in interfaces.items() %}
+{% if 'l' in interface %}
+set interfaces {{interface}} unit 0 family inet address {{interface_config['ip']}}/{{subnets[interface_config['subnet_mask']]}}
+{% elif 'g' in interface %}
+set interfaces {{interface | replace('g', 'ge-') | replace(interface[1:4], '0/0/' ~ interface[1])}} unit 0 family inet address {{interface_config['ip']}}/{{subnets[interface_config['subnet_mask']]}}
+set interfaces {{interface | replace('g', 'ge-') | replace(interface[1:4], '0/0/' ~ interface[1])}} description "{{interface_config['description']}}"
+{% elif 'te' in interface %}
+set interfaces {{interface | replace('te', 'xe-') | replace(interface[2:5], '0/0/' ~ interface[2])}} unit 0 family inet address {{config['ip']}}/{{subnets[interface_config['subnet_mask']]}}
+set interfaces {{interface | replace('te', 'xe-') | replace(interface[2:5], '0/0/' ~ interface[2])}} description "{{interface_config['description']}}"
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if ospf %}
+{% for ospf_interface in ospf['interfaces'] -%}
+set protocols ospf area 0.0.0.{{ospf['area']}} interface {{ospf_interface}}.0
+{% endfor %}
+{% endif %}
+{% if bgp %}
+set routing-options autonomous-system {{bgp['as']}}
+{% for peer, peer_config in bgp['peers'].items() %}
+set protocols bgp group external-peers neighbor {{peer_config['neighbor_address']}} peer-as {{peer_config['neighbor_as']}}
+{% endfor %}
+{% endif %}

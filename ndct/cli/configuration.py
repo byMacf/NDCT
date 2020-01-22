@@ -2,6 +2,7 @@ import click
 import os
 import difflib
 import yaml
+import sys
 
 from jinja2 import Environment, FileSystemLoader
 from ndct.core.device import Device
@@ -20,8 +21,12 @@ def generate(name):
 	'''
 	Device.get_devices_from_file()
 
-	with open(METADATA_PATH + name + '_metadata.yaml', 'r') as metadata:
-		device_metadata = (yaml.safe_load(metadata))
+	if os.path.isfile(METADATA_PATH + name + '_metadata.yaml'):
+		with open(METADATA_PATH + name + '_metadata.yaml', 'r') as metadata:
+			device_metadata = (yaml.safe_load(metadata))
+	else:
+		log('Metadata for {} does not exist'.format(name), 'info')
+		sys.exit(1)
 
 	device_os = Device.get_device_information(name)['os']
 
