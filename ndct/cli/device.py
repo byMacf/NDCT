@@ -1,15 +1,17 @@
 import click
 import sys
+import os
 
 from ndct.core.device import Device, devices
 from ndct.core.log import log
+from ndct.core.paths import DB_PATH
 
 @click.command(short_help = 'Add a device')
 @click.option('-n', '--name', help = 'Name', required = True)
 @click.option('-i', '--ip', help = 'IP address', required = True)
 @click.option('-u', '--username', help = 'Username to authenticate against', required = True)
 @click.option('-p', '--password', help = 'Password to authenticate with', required = True)
-@click.option('-o', '--os', type = click.Choice(['cisco_ios', 'juniper', 'cisco_nxos', 'cisco_asa']), help = 'Operating system', required = True)
+@click.option('-o', '--os', type = click.Choice(['cisco_ios', 'juniper', 'cisco_nxos', 'cisco_asa', 'vyos']), help = 'Operating system', required = True)
 def add(name, ip, username, password, os):
 	'''
 	Summary:
@@ -31,7 +33,23 @@ def add(name, ip, username, password, os):
 	devices.append({name: device_object})
 	log('Device {} added successfully'.format(name), 'info')
 	Device.save_devices_to_file()
-	#Expand this to add multiple devices at a time
+
+@click.command(short_help = 'Add devices from a file')
+@click.option('-f', '--filename', help = 'File to add devices from', required = True)
+def add_from_file(filename):
+	Device.get_devices_from_file()
+	file_path = DB_PATH + filename
+	if os.path.isfile(file_path):
+		with open(file_path, 'r') as devices_file:
+			all_lines = [line.strip() for line in devices_file.readlines()]
+			for device_attribute in range(0, len(all_lines), 5):
+				for device in devices:
+					if all_lines[device_attribute] in device:
+						log('Cannot add {}, device already exists'.format(all_lines[device_attribute]), 'info')
+						sys.exit(1)
+				device_object = Device(all_lines[device_attribute], all_lines[device_attribute+1], all_lines[device_attribute+2], all_lines[device_attribute+3], all_lines[device_attribute+4])
+				devices.append({all_lines[device_attribute]: device_object})
+	Device.save_devices_to_file()
 
 @click.command(short_help = 'Remove a device')
 @click.option('-n', '--name', help = 'Name', required = True)
@@ -52,7 +70,6 @@ def remove(name):
 			return
 
 	log('Device {} does not exist'.format(name), 'error')
-	#Expand this to remove multiple devices at a time
 
 @click.command(short_help = 'View a device')
 @click.option('-n', '--name', help = 'Name', required = True)
@@ -80,5 +97,6 @@ def device():
 	pass
 
 device.add_command(add)
+device.add_command(add_from_file)
 device.add_command(remove)
 device.add_command(view)

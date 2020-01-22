@@ -1,0 +1,15 @@
+R7
+10.1.1.1
+admin
+password
+cisco
+R8
+10.2.2.2
+admin
+password
+juniper
+R9
+10.3.3.3
+admin
+password
+vyos
