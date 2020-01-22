@@ -79,14 +79,10 @@ def diff(config1, config2):
 
 	log('Diff for [{}] < > [{}]'.format(config1, config2), 'info')
 	for line in diff:
-		print(line)
-		'''
 		if line[0] == '+' and line[1] != '+':
-			log('\033[0;32m {}\033[m'.format(line), 'info')
+			log('\033[0;32m{}\033[m'.format(line), 'info')
 		elif line[0] == '-' and line[1] != '-': 
-			log('\033[0;31m {}\033[m'.format(line), 'info')
-		'''
-		#Fix this
+			log('\033[0;31m{}\033[m'.format(line), 'info')
 
 @click.group(short_help = 'Configuration commands')
 def configuration():
