@@ -1,6 +1,0 @@
-2019-10-29 16:44:33,702 [INFO] Getting modules...
-2019-10-29 16:44:33,702 [INFO] Got module "juniper"
-2019-10-29 16:44:33,702 [INFO] Got module "cisco_ios"
-2019-10-29 16:44:33,703 [INFO] Using existing key in Documents/Python/NDCT/ndct/core/db/key.key for encryption/decryption
-2019-10-29 16:44:33,706 [INFO] Got devices from file
-2019-10-29 16:44:33,737 [INFO] Generated configuration for R1
