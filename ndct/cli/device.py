@@ -11,7 +11,7 @@ from ndct.core.paths import DB_PATH
 @click.option('-i', '--ip', help = 'IP address', required = True)
 @click.option('-u', '--username', help = 'Username to authenticate against', required = True)
 @click.option('-p', '--password', help = 'Password to authenticate with', required = True)
-@click.option('-o', '--os', type = click.Choice(['cisco_ios', 'juniper', 'cisco_nxos', 'cisco_asa', 'vyos']), help = 'Operating system', required = True)
+@click.option('-o', '--os', type = click.Choice(['cisco_ios', 'juniper', 'vyos']), help = 'Operating system', required = True)
 def add(name, ip, username, password, os):
 	'''
 	Summary:
