@@ -28,6 +28,9 @@ class Configuration:
 
 				output = device_connection.send_command(command_list)
 
+				for command in command_list:
+					Configuration.check_configuration(device_connection, device_information['os'], command)
+
 				print('\n')
 				log(output + '\n', 'info')
 
@@ -106,9 +109,9 @@ class Configuration:
 		configuration = connection.send_command(command_file['commands']['config'])
 
 		if config_line in configuration:
-			log('Config check passed', 'info')
+			log('Config check passed for {}'.format(config_line), 'info')
 		else:
-			log('Config check failed, please review deployment log', 'info')
+			log('Config check failed for {}, please review deployment log'.format(config_line), 'info')
 
 	@staticmethod
 	def mark_config_deployed(device):

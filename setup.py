@@ -9,8 +9,8 @@ setup(
 	long_description='A configuration management tool for network device orchestration through the use of deployments.',
 
 	# Author details
-	author='Dominic Macfarlane',
-	author_email='dominicmacfarlane1@hotmail.com',
+	author='Dominic James Macfarlane',
+	author_email='m021859g@student.staffs.ac.uk',
 
 	# Packages
 	packages=find_packages(exclude=[""]),
