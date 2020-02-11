@@ -7,7 +7,7 @@ from ndct.core.crypt import Crypt
 from ndct.core.log import log
 
 @click.command(short_help = 'Decrypt a file')
-@click.option('-f', '--filename', help = 'Filename', required = True)
+@click.option('-f', '--filename', type = click.Choice(['devices', 'deployments']), help = 'Filename', required = True)
 def decrypt(filename):
 	'''
 		Summary:
