@@ -41,7 +41,7 @@ def log(log_message, level):
 
     log_message_types[level](log_message)
 
-'''def nolog(filename):
+'''def nolog():
     logger = logging.getLogger('ndct-logger')
     handler = logger.handlers[0]
     logfile = handler.baseFilename
