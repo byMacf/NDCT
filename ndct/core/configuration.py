@@ -1,4 +1,5 @@
 import json
+import os
  
 from datetime import datetime
 from ndct.core.connection import Connection
@@ -20,6 +21,8 @@ class Configuration:
 		device_information = Device.get_device_information(device)
 		if command == 'custom':
 			try:
+				Configuration.snapshot_config(device)
+				
 				with open(CONFIG_PATH + device + '_custom_commands.txt') as custom_commands_from_file:
 					command_list = custom_commands_from_file.read()
 
@@ -28,8 +31,8 @@ class Configuration:
 
 				output = device_connection.send_command(command_list)
 
-				for command in command_list:
-					Configuration.check_configuration(device_connection, device_information['os'], command)
+				for command_line in command_list:
+					Configuration.check_configuration(device, device_connection, device_information['os'], command_line)
 
 				print('\n')
 				log(output + '\n', 'info')
@@ -80,6 +83,8 @@ class Configuration:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 		elif command == 'deploy':
 			try: 
+				Configuration.snapshot_config(device)
+
 				connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
 				device_connection = connection_object.get_connection()
 
@@ -88,6 +93,9 @@ class Configuration:
 				print('\nOutput from {}\n'.format(device))
 				log(output + '\n', 'info')
 
+				for command in output:
+					Configuration.check_configuration(device, device_connection, device_information['os'], command)
+
 				Configuration.mark_config_deployed(device)
 				connection_object.close_connection(device_connection)
 
@@ -95,7 +103,7 @@ class Configuration:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 
 	@staticmethod
-	def check_configuration(connection, os, config_line):
+	def check_configuration(device, connection, os, config_line):
 		'''
 			Summary:
 			Checks if configuration has been pushed to device.
@@ -105,13 +113,16 @@ class Configuration:
 			os: Operating system of device
 			config_line: Configuration to check for
 		'''
-		command_file = MODULE_PATH + os + 'commands.json'
+		command_file_path = MODULE_PATH + os + '/commands.json'
+		with open(command_file_path) as command_file_temp:
+			command_file = json.load(command_file_temp)
 		configuration = connection.send_command(command_file['commands']['config'])
 
 		if config_line in configuration:
 			log('Config check passed for {}'.format(config_line), 'info')
 		else:
-			log('Config check failed for {}, please review deployment log'.format(config_line), 'info')
+			log('Config check failed for {}, rolling back'.format(config_line), 'info')
+			Configuration.rollback_config(device)
 
 	@staticmethod
 	def mark_config_deployed(device):
@@ -131,3 +142,54 @@ class Configuration:
 			deployed_config_file.write(deployed_config)
 
 		log('Marked generated configuration for {} as deployed'.format(device), 'info')
+
+	@staticmethod
+	def snapshot_config(device):
+		device_information = Device.get_device_information(device)
+
+		try:
+			with open(MODULE_PATH + device_information['os'] + '/commands.json') as command_list_from_file:
+				command_list = json.load(command_list_from_file)
+				
+			connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
+			device_connection = connection_object.get_connection()
+
+			log('Creating configuration snapshot for {}...'.format(device), 'info')
+
+			output = device_connection.send_command(command_list['commands']['config'])
+			connection_object.close_connection(device_connection)
+				
+			config_lines = output.splitlines()
+
+			with open(CONFIG_PATH + device + '_rollback.txt', 'w+') as config_file:
+				for line in config_lines:
+					config_file.write(line + '\n')
+						
+			log('Configuration snapshot stored as {}_rollback.txt in {}'.format(device, CONFIG_PATH), 'info')
+
+		except AttributeError:
+			log('Could not send commands to {}, device unreachable'.format(device), 'error')
+
+	@staticmethod 
+	def rollback_config(device):
+		device_information = Device.get_device_information(device)
+		
+		try: 
+			connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
+			device_connection = connection_object.get_connection()
+
+			output = device_connection.send_config_from_file(CONFIG_PATH + device + '_rollback.txt')
+
+			print('\nOutput from {}\n'.format(device))
+			log(output + '\n', 'info')
+			connection_object.close_connection(device_connection)
+
+			log('Device configuration for {} rolled back'.format(device), 'info')
+
+		except AttributeError:
+			log('Could not send commands to {}, device unreachable'.format(device), 'error')
+
+	@staticmethod
+	def delete_rollback_config(device):
+		os.remove(CONFIG_PATH + device + '_rollback.txt')
+		log("Removed rollback file for {}".format(device), 'info')
