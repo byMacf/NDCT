@@ -33,25 +33,11 @@ class Configuration:
 					Configuration.check_configuration(device, device_connection, device_information['os'], command)
 
 				#Connection.close_connection(device_connection)
+
+				Configuration.delete_rollback_config(device)
 			except AttributeError:
 				log('Could not send commands to {}'.format(device), 'error')
-		elif command == 'routes':
-			try: 
-				with open(MODULE_PATH + device_information['os'] + '/commands.json') as command_list_from_file:
-					command_list = json.load(command_list_from_file)
-
-				connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
-				device_connection = connection_object.get_connection()
-
-				output = device_connection.send_command(command_list['commands'][command])
-
-				print('\nOutput from {}\n'.format(device))
-				log(output + '\n', 'info')
-
-				connection_object.close_connection(device_connection)
-			except AttributeError:
-				log('Could not send commands to {}, device unreachable'.format(device), 'error')
-		elif command == 'config':
+		elif command == 'pull':
 			try:
 				with open(MODULE_PATH + device_information['os'] + '/commands.json') as command_list_from_file:
 					command_list = json.load(command_list_from_file)
@@ -61,7 +47,7 @@ class Configuration:
 
 				log('Getting device configuration for {}...'.format(device), 'info')
 
-				output = device_connection.send_command(command_list['commands'][command])
+				output = device_connection.send_command(command_list['commands']['config'])
 				connection_object.close_connection(device_connection)
 				
 				config_lines = output.splitlines()
@@ -73,7 +59,7 @@ class Configuration:
 				log('Device configuration stored as {}_latest.txt in {}'.format(device, CONFIG_PATH), 'info')
 			except AttributeError:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
-		elif command == 'deploy':
+		elif command == 'push':
 			try: 
 				Configuration.snapshot_config(device)
 
@@ -92,8 +78,6 @@ class Configuration:
 				connection_object.close_connection(device_connection)
 			except AttributeError:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
-
-		Configuration.delete_rollback_config(device)
 
 	@staticmethod
 	def check_configuration(device, connection, os, config_line):
