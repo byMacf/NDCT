@@ -21,18 +21,24 @@ class Configuration:
 		device_information = Device.get_device_information(device)
 		if command == 'custom':
 			try:
-				device_connection = Configuration.snapshot_config(device)
+				connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
+				device_connection = connection_object.get_connection()
+				
+				Configuration.snapshot_config(device, device_connection, device_information['os'])
 				
 				with open(CONFIG_PATH + device + '_custom_commands.txt') as custom_commands_from_file:
-					command_list = custom_commands_from_file.read()
-				
-				commands = command_list.splitlines()
-				device_connection.send_config_from_file(CONFIG_PATH + device + '_custom_commands.txt')
+					command_list = custom_commands_from_file.read().splitlines()
 
-				for command in commands:
-					Configuration.check_configuration(device, device_connection, device_information['os'], command)
+				if device_information['os'] == 'vyos':
+					command_list.append('exit')
+			
+				device_connection.send_config_set(command_list)
 
-				#Connection.close_connection(device_connection)
+				for command in command_list:
+					if command != 'exit':
+						Configuration.check_configuration(device, device_connection, device_information['os'], command)
+
+				connection_object.close_connection(device_connection)
 
 				Configuration.delete_rollback_config(device)
 			except AttributeError:
@@ -61,10 +67,10 @@ class Configuration:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 		elif command == 'push':
 			try: 
-				Configuration.snapshot_config(device)
-
 				connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
 				device_connection = connection_object.get_connection()
+
+				Configuration.snapshot_config(device, device_connection, device_information['os'])
 
 				output = device_connection.send_config_from_file(CONFIG_PATH + device + '_generated.txt')
 
@@ -122,15 +128,17 @@ class Configuration:
 		log('Marked generated configuration for {} as deployed'.format(device), 'info')
 
 	@staticmethod
-	def snapshot_config(device):
-		device_information = Device.get_device_information(device)
+	def snapshot_config(device, device_connection, os):
+		'''
+			Summary:
+			Takes a snapshot of device configuration for rollback configuration.
 
+			Takes:
+			device: Device name
+		'''
 		try:
-			with open(MODULE_PATH + device_information['os'] + '/commands.json') as command_list_from_file:
+			with open(MODULE_PATH + os + '/commands.json') as command_list_from_file:
 				command_list = json.load(command_list_from_file)
-				
-			connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
-			device_connection = connection_object.get_connection()
 
 			log('Creating configuration snapshot for {}...'.format(device), 'info')
 
@@ -143,13 +151,19 @@ class Configuration:
 					config_file.write(line + '\n')
 						
 			log('Configuration snapshot stored as {}_rollback.txt in {}'.format(device, CONFIG_PATH), 'info')
-
-			return device_connection
 		except AttributeError:
 			log('Could not send commands to {}, device unreachable'.format(device), 'error')
 
 	@staticmethod 
 	def rollback_config(device, device_connection):
+		'''
+			Summary:
+			Performs a rollback of device configuration.
+
+			Takes:
+			device: Device name
+			device_connection: Device connection object
+		'''	
 		try: 
 			device_connection.send_config_from_file(CONFIG_PATH + device + '_rollback.txt')
 
@@ -159,5 +173,12 @@ class Configuration:
 
 	@staticmethod
 	def delete_rollback_config(device):
+		'''
+			Summary:
+			Delete rollback configuration once deployment succeeds..
+
+			Takes:
+			device: Device name
+		'''
 		os.remove(CONFIG_PATH + device + '_rollback.txt')
 		log("Removed rollback file for {}".format(device), 'info')
