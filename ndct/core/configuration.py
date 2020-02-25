@@ -72,16 +72,14 @@ class Configuration:
 
 				Configuration.snapshot_config(device, device_connection, device_information['os'])
 
-				output = device_connection.send_config_from_file(CONFIG_PATH + device + '_generated.txt')
+				print(device_connection.send_config_from_file(CONFIG_PATH + device + '_generated.txt'))
 
-				print('\nOutput from {}\n'.format(device))
-				log(output + '\n', 'info')
-
-				for command in output:
-					Configuration.check_configuration(device, device_connection, device_information['os'], command)
+				'''for command in output:
+					Configuration.check_configuration(device, device_connection, device_information['os'], command)'''
 
 				Configuration.mark_config_deployed(device)
 				connection_object.close_connection(device_connection)
+				Configuration.delete_rollback_config(device)
 			except AttributeError:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 
@@ -119,10 +117,10 @@ class Configuration:
 		'''
 		device_information = Device.get_device_information(device)
 
-		with open(CONFIG_PATH + device + '_' + device_information['os'] + '_generated.txt', 'r') as generated_config_file:
+		with open(CONFIG_PATH + device + '_generated.txt', 'r') as generated_config_file:
 			deployed_config = generated_config_file.read()
 
-		with open(CONFIG_PATH + device + '_' + device_information['os'] + '_deployed_' + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + '.txt', 'w') as deployed_config_file:
+		with open(CONFIG_PATH + device + '_deployed_' + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + '.txt', 'w') as deployed_config_file:
 			deployed_config_file.write(deployed_config)
 
 		log('Marked generated configuration for {} as deployed'.format(device), 'info')
