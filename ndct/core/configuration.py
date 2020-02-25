@@ -39,8 +39,7 @@ class Configuration:
 						Configuration.check_configuration(device, device_connection, device_information['os'], command)
 
 				if device_information['os'] == 'vyos':
-					device_connection.send_command('commit')
-					device_connection.send_command('save')
+					device_connection.send_config_set(['commit', 'save'])
 				elif device_information['os'] == 'cisco_ios':
 					device_connection.save_config()
 
@@ -84,8 +83,7 @@ class Configuration:
 					Configuration.check_configuration(device, device_connection, device_information['os'], command)'''
 
 				if device_information['os'] == 'vyos':
-					device_connection.send_command('commit')
-					device_connection.send_command('save')
+					device_connection.send_config_set(['commit', 'save'])
 				elif device_information['os'] == 'cisco_ios':
 					device_connection.save_config()
 
@@ -186,8 +184,7 @@ class Configuration:
 			device_connection.send_config_set(command_list)
 
 			if os == 'vyos':
-				device_connection.send_command('commit')
-				device_connection.send_command('save')
+				device_connection.send_config_set(['commit', 'save'])
 			elif os == 'cisco_ios':
 				device_connection.save_config()
 
