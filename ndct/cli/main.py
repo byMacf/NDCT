@@ -5,7 +5,6 @@ from ndct.cli import device
 from ndct.cli import deployment
 from ndct.cli import configuration
 from ndct.core.banner import banner
-from ndct.core.modules import get_modules
 
 @click.group()
 def main():
