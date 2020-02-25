@@ -106,7 +106,7 @@ class Configuration:
 			log('Configuration check passed for "{}" on {}'.format(config_line, device), 'info')
 		else:
 			log('Configuration check failed for "{}" on {}, rolling back'.format(config_line, device), 'info')
-			Configuration.rollback_config(device, connection)
+			Configuration.rollback_config(device, os, connection)
 
 	@staticmethod
 	def mark_config_deployed(device):
@@ -155,7 +155,7 @@ class Configuration:
 			log('Could not send commands to {}, device unreachable'.format(device), 'error')
 
 	@staticmethod 
-	def rollback_config(device, device_connection):
+	def rollback_config(device, os, device_connection):
 		'''
 			Summary:
 			Performs a rollback of device configuration.
@@ -165,9 +165,19 @@ class Configuration:
 			device_connection: Device connection object
 		'''	
 		try: 
-			device_connection.send_config_from_file(CONFIG_PATH + device + '_rollback.txt')
+			with open(CONFIG_PATH + device + '_custom_commands.txt') as custom_commands_from_file:
+					command_list_temp = custom_commands_from_file.read().splitlines()
 
-			log('Device configuration for {} rolled back'.format(device), 'info')
+			if os == 'cisco_ios':
+				command_list = ['no ' + command for command in command_list_temp]
+			elif os == 'vyos':
+				command_list = [command.replace('set', 'delete') for command in command_list_temp]
+
+			print(device_connection.send_config_set(command_list))
+			
+			'''device_connection.send_config_from_file(CONFIG_PATH + device + '_rollback.txt')
+
+			log('Device configuration for {} rolled back'.format(device), 'info')'''
 		except AttributeError:
 			log('Could not send commands to {}, device unreachable'.format(device), 'error')
 
