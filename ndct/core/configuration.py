@@ -174,7 +174,7 @@ class Configuration:
 		'''	
 		try: 
 			with open(CONFIG_PATH + device + '_custom_commands.txt') as custom_commands_from_file:
-					command_list_temp = custom_commands_from_file.read().splitlines()
+				command_list_temp = custom_commands_from_file.read().splitlines()
 
 			if os == 'cisco_ios':
 				command_list = ['no ' + command for command in command_list_temp]
@@ -182,10 +182,13 @@ class Configuration:
 				command_list = [command.replace('set', 'delete') for command in command_list_temp]
 
 			device_connection.send_config_set(command_list)
-			
-			'''device_connection.send_config_from_file(CONFIG_PATH + device + '_rollback.txt')
 
-			log('Device configuration for {} rolled back'.format(device), 'info')'''
+			if os == 'vyos':
+				device_connection.send_command('commit')
+			elif os == 'cisco_ios':
+				device_connection.save_config()
+
+			log('Device configuration for {} rolled back'.format(device), 'info')
 		except AttributeError:
 			log('Could not send commands to {}, device unreachable'.format(device), 'error')
 
