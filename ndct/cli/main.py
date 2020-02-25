@@ -14,7 +14,6 @@ def main():
     Groups CLI commands to create the CLI menu.
     '''
     banner()
-    get_modules()
 
 main.add_command(crypt.crypt, name = 'crypt')
 main.add_command(device.device, name = 'device')
