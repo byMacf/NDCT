@@ -38,6 +38,11 @@ class Configuration:
 					if command != 'exit':
 						Configuration.check_configuration(device, device_connection, device_information['os'], command)
 
+				if device_information['os'] == 'vyos':
+					device_connection.send_command('commit')
+				elif device_information['os'] == 'cisco_ios':
+					device_connection.save_config()
+
 				connection_object.close_connection(device_connection)
 
 				Configuration.delete_rollback_config(device)
@@ -72,10 +77,15 @@ class Configuration:
 
 				Configuration.snapshot_config(device, device_connection, device_information['os'])
 
-				print(device_connection.send_config_from_file(CONFIG_PATH + device + '_generated.txt'))
+				device_connection.send_config_from_file(CONFIG_PATH + device + '_generated.txt')
 
 				'''for command in output:
 					Configuration.check_configuration(device, device_connection, device_information['os'], command)'''
+
+				if device_information['os'] == 'vyos':
+					device_connection.send_command('commit')
+				elif device_information['os'] == 'cisco_ios':
+					device_connection.save_config()
 
 				Configuration.mark_config_deployed(device)
 				connection_object.close_connection(device_connection)
@@ -171,7 +181,7 @@ class Configuration:
 			elif os == 'vyos':
 				command_list = [command.replace('set', 'delete') for command in command_list_temp]
 
-			print(device_connection.send_config_set(command_list))
+			device_connection.send_config_set(command_list)
 			
 			'''device_connection.send_config_from_file(CONFIG_PATH + device + '_rollback.txt')
 
