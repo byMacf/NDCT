@@ -43,7 +43,7 @@ def generate(name):
 	log('Generated configuration for {}'.format(name), 'info')
 
 @click.command(short_help = 'List configuration files')
-def show():
+def stored():
 	'''
 	Summary:
 	Lists all stored configuration files.
@@ -89,5 +89,5 @@ def configuration():
 	pass
 
 configuration.add_command(generate)
-configuration.add_command(show)
+configuration.add_command(stored)
 configuration.add_command(diff)
