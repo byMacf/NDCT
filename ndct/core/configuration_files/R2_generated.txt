@@ -1,0 +1,5 @@
+set system host-name R2
+set interfaces loopback lo address '12.12.12.12/32'
+set interfaces loopback lo description 'Loopback'
+set protocols bgp 65002 neighbor 192.168.21.201 remote-as '65001'
+set protocols bgp 65002 network '12.12.12.12/32'
