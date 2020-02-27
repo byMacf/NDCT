@@ -33,15 +33,23 @@ class Configuration:
 					command_list.append('exit')
 			
 				device_connection.send_config_set(command_list)
-
+				
 				for command in command_list:
-					if command != 'exit':
+					if command != 'exit' and command != 'no shutdown':
 						Configuration.check_configuration(device, device_connection, device_information['os'], command)
-
+				
 				if device_information['os'] == 'vyos':
 					device_connection.send_config_set(['commit', 'save'])
 				elif device_information['os'] == 'cisco_ios':
 					device_connection.save_config()
+					'''Add additional prompting here for:
+					R1#copy run start
+					Destination filename [startup-config]?
+					Warning: Attempting to overwrite an NVRAM configuration previously written
+					by a different version of the system image.
+					Overwrite the previous NVRAM configuration?[confirm]
+					Building configuration...
+					[OK] FIX'''
 
 				connection_object.close_connection(device_connection)
 
@@ -112,9 +120,10 @@ class Configuration:
 
 		if config_line in configuration:
 			log('Configuration check passed for "{}" on {}'.format(config_line, device), 'info')
+			# Doesn't work first time for vyos? FIX
 		else:
 			log('Configuration check failed for "{}" on {}, rolling back'.format(config_line, device), 'info')
-			Configuration.rollback_config(device, os, connection)
+			#Configuration.rollback_config(device, os, connection) FIX 
 
 	@staticmethod
 	def mark_config_deployed(device):
