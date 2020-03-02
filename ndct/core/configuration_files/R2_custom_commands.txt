@@ -1,1 +1,1 @@
-set interfaces loopback lo address '7.7.7.7/32'
+set protocols ospf area 1 network '192.168.22.0/24'

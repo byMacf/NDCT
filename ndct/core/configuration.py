@@ -29,26 +29,29 @@ class Configuration:
 				with open(CONFIG_PATH + device + '_custom_commands.txt') as custom_commands_from_file:
 					command_list = custom_commands_from_file.read().splitlines()
 
-				if device_information['os'] == 'vyos':
-					command_list.append('commit')
-					command_list.append('save')
-					command_list.append('exit')
-
 				log('Pushing configuration to {}...'.format(device), 'info')
 				device_connection.send_config_set(command_list)
-				
-				for command in command_list:
-					if command != 'exit' and command != 'no shutdown' and command != 'commit' and command != 'save':
-						Configuration.check_configuration(device, device_connection, device_information['os'], command)
-				
+
 				if device_information['os'] == 'vyos':
-					device_connection.send_config_set(['commit', 'save'])
+					device_connection.send_config_set(['commit', 'save', 'exit'])
 				elif device_information['os'] == 'cisco_ios':
 					output = device_connection.send_command_timing('copy run start')
+					if 'Destination filename' in output:
+						device_connection.send_command_timing(
+        					"\n", strip_prompt=False, strip_command=False
+    					)
+					if 'Overwrite the previous' in output:
+						device_connection.send_command_timing(
+        					"\n", strip_prompt=False, strip_command=False
+    					)
 					if 'Warning: Attempting to overwrite an NVRAM configuration previously written' in output:
 						device_connection.send_command_timing(
-        					"y", strip_prompt=False, strip_command=False
+        					"\n", strip_prompt=False, strip_command=False
     					)
+				
+				for command in command_list:
+					if command != 'no shutdown':
+						Configuration.check_configuration(device, device_connection, device_information['os'], command)
 
 				connection_object.close_connection(device_connection)
 
@@ -87,17 +90,25 @@ class Configuration:
 				log('Pushing configuration to {}...'.format(device), 'info')
 				device_connection.send_config_from_file(CONFIG_PATH + device + '_generated.txt')
 
-				'''for command in output:
-					Configuration.check_configuration(device, device_connection, device_information['os'], command)'''
-
 				if device_information['os'] == 'vyos':
-					device_connection.send_config_set(['commit', 'save'])
+					device_connection.send_config_set(['commit', 'save', 'exit'])
 				elif device_information['os'] == 'cisco_ios':
 					output = device_connection.send_command_timing('copy run start')
+					if 'Destination filename' in output:
+						device_connection.send_command_timing(
+        					"\n", strip_prompt=False, strip_command=False
+    					)
+					if 'Overwrite the previous' in output:
+						device_connection.send_command_timing(
+        					"\n", strip_prompt=False, strip_command=False
+    					)
 					if 'Warning: Attempting to overwrite an NVRAM configuration previously written' in output:
 						device_connection.send_command_timing(
-        					"y", strip_prompt=False, strip_command=False
+        					"\n", strip_prompt=False, strip_command=False
     					)
+
+				'''for command in output:
+					Configuration.check_configuration(device, device_connection, device_information['os'], command)'''
 
 				Configuration.mark_config_deployed(device)
 				connection_object.close_connection(device_connection)
@@ -184,6 +195,7 @@ class Configuration:
 			device: Device name
 			device_connection: Device connection object
 		'''	
+		# Multiple rollbacks can be triggered creating a loop, FIX
 		try: 
 			with open(CONFIG_PATH + device + '_custom_commands.txt') as custom_commands_from_file:
 				command_list_temp = custom_commands_from_file.read().splitlines()
@@ -196,9 +208,21 @@ class Configuration:
 			device_connection.send_config_set(command_list)
 
 			if os == 'vyos':
-				print(device_connection.send_config_set(['commit', 'save']))
+				device_connection.send_config_set(['commit', 'save'])
 			elif os == 'cisco_ios':
-				device_connection.save_config()
+					output = device_connection.send_command_timing('copy run start')
+					if 'Destination filename' in output:
+						device_connection.send_command_timing(
+        					"\n", strip_prompt=False, strip_command=False
+    					)
+					if 'Overwrite the previous' in output:
+						device_connection.send_command_timing(
+        					"\n", strip_prompt=False, strip_command=False
+    					)
+					if 'Warning: Attempting to overwrite an NVRAM configuration previously written' in output:
+						device_connection.send_command_timing(
+        					"\n", strip_prompt=False, strip_command=False
+    					)
 
 			log('Device configuration for {} rolled back'.format(device), 'info')
 		except AttributeError:
