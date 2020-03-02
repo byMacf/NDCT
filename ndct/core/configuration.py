@@ -21,7 +21,13 @@ class Configuration:
 		device_information = Device.get_device_information(device)
 		if command == 'custom':
 			try:
-				connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
+				connection_object = Connection(
+					device_information['name'], 
+					device_information['ip'], 
+					device_information['username'], 
+					device_information['password'], 
+					device_information['os']
+				)
 				device_connection = connection_object.get_connection()
 				
 				Configuration.snapshot_config(device, device_connection, device_information['os'])
@@ -63,7 +69,13 @@ class Configuration:
 				with open(MODULE_PATH + device_information['os'] + '/commands.json') as command_list_from_file:
 					command_list = json.load(command_list_from_file)
 				
-				connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
+				connection_object = Connection(
+					device_information['name'], 
+					device_information['ip'], 
+					device_information['username'], 
+					device_information['password'], 
+					device_information['os']
+				)
 				device_connection = connection_object.get_connection()
 
 				log('Getting device configuration for {}...'.format(device), 'info')
@@ -82,7 +94,13 @@ class Configuration:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 		elif command == 'push':
 			try: 
-				connection_object = Connection(device_information['name'], device_information['ip'], device_information['username'], device_information['password'], device_information['os'])
+				connection_object = Connection(
+					device_information['name'], 
+					device_information['ip'], 
+					device_information['username'], 
+					device_information['password'], 
+					device_information['os']
+				)
 				device_connection = connection_object.get_connection()
 
 				Configuration.snapshot_config(device, device_connection, device_information['os'])
@@ -138,6 +156,7 @@ class Configuration:
 		else:
 			log('Configuration check failed for "{}" on {}, rolling back'.format(config_line, device), 'info')
 			Configuration.rollback_config(device, os, connection)
+			# Could return a value here to then check in the custom/push functions, while loop to stop if return True
 
 	@staticmethod
 	def mark_config_deployed(device):
@@ -148,7 +167,6 @@ class Configuration:
 			Takes:
 			device: Name of device to mark configuration as deployed for
 		'''
-		device_information = Device.get_device_information(device)
 
 		with open(CONFIG_PATH + device + '_generated.txt', 'r') as generated_config_file:
 			deployed_config = generated_config_file.read()
