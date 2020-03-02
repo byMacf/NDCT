@@ -4,18 +4,24 @@ hostname {{hostname}}
 {% for interface, config in interfaces.items() %}
 interface {{interface}}
  description {{config['description']}}
- ip address {{config['ip']}} {{config['subnet_mask']}}
+ ip address {{config['ip_address']}} {{config['subnet_mask']}}
  no shutdown
 !
 {% endfor %}
 {% endif %}
 {% if bgp %}
 router bgp {{bgp['as']}}
-{% for network, network_config in bgp['networks'].items() %}
- network {{network_config['network_address']}} mask {{network_config['network_mask']}}
-{% endfor %}
 {% for peer, peer_config in bgp['peers'].items() %}
- neighbor {{peer_config['neighbor_address']}} remote-as {{peer_config['neighbor_as']}}
+ neighbor {{peer_config['neighbor_ip']}} remote-as {{peer_config['neighbor_as']}}
+{% endfor %}
+{% for network, network_config in bgp['networks'].items() %}
+ network {{network_config['subnet']}} mask {{network_config['subnet_mask']}}
+{% endfor %}
+{% endif %}
+!
+{% if ospf %}
+{% for network, network_config in ospf['networks'].items() %}
+ network {{network_config['subnet']}} {{network_config['wildcard_mask']}} area {{network_config['area']}}
 {% endfor %}
 {% endif %}
 !

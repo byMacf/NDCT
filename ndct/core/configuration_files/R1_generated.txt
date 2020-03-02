@@ -6,6 +6,8 @@ interface lo0
  no shutdown
 !
 router bgp 65001
- network 11.11.11.11 mask 255.255.255.255
  neighbor 192.168.21.202 remote-as 65002
+ network 11.11.11.11 mask 255.255.255.255
+!
+ network 192.168.21.0 0.0.0.255 area 0
 !

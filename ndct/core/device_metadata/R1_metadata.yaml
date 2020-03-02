@@ -3,16 +3,23 @@ R1:
   interfaces:
     lo0:
       description: Loopback
-      ip: 11.11.11.11
+      ip_address: 11.11.11.11
       subnet_mask: 255.255.255.255
 
   bgp:
     as: 65001
     peers: 
       R2:
-        neighbor_address: 192.168.21.202
+        neighbor_ip: 192.168.21.202
         neighbor_as: 65002
     networks:
       network1:
-        network_address: 11.11.11.11
-        network_mask: 255.255.255.255
+        subnet: 11.11.11.11
+        subnet_mask: 255.255.255.255
+
+  ospf:
+    networks:
+      network1:
+        area: 0
+        subnet: 192.168.21.0
+        wildcard_mask: 0.0.0.255

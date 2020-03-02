@@ -3,16 +3,24 @@ R2:
   interfaces:
     lo:
       description: Loopback
-      ip: 12.12.12.12
+      ip_address: 12.12.12.12
       subnet_mask: 32
 
   bgp:
     as: 65002
     peers: 
       R1:
-        neighbor_address: 192.168.21.201
+        neighbor_ip: 192.168.21.201
         neighbor_as: 65001
     networks:
       network1:
-        network_address: 12.12.12.12
-        network_mask: 32
+        subnet: 12.12.12.12
+        subnet_mask: 32
+
+  ospf:
+    pid: 1
+    networks:
+      network1:
+        area: 0
+        subnet: 192.168.21.0
+        subnet_mask: 24

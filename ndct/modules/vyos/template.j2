@@ -1,15 +1,20 @@
 set system host-name {{hostname}}
 {% if interfaces %}
 {% for interface, interface_config in interfaces.items() %}
-set interfaces {% if interface[0:2] == 'lo' %}loopback{% elif interface[0:3] == 'eth' %}ethernet{% endif %} {{interface}} address '{{interface_config['ip']}}/{{interface_config['subnet_mask']}}'
+set interfaces {% if interface[0:2] == 'lo' %}loopback{% elif interface[0:3] == 'eth' %}ethernet{% endif %} {{interface}} address '{{interface_config['ip_address']}}/{{interface_config['subnet_mask']}}'
 set interfaces {% if interface[0:2] == 'lo' %}loopback{% elif interface[0:3] == 'eth' %}ethernet{% endif %} {{interface}} description '{{interface_config['description']}}'
 {% endfor %}
 {% endif %}
 {% if bgp %}
 {% for peer, peer_config in bgp['peers'].items() %}
-set protocols bgp {{bgp['as']}} neighbor {{peer_config['neighbor_address']}} remote-as '{{peer_config['neighbor_as']}}'
+set protocols bgp {{bgp['as']}} neighbor {{peer_config['neighbor_ip']}} remote-as '{{peer_config['neighbor_as']}}'
 {% endfor %}
 {% for network, network_config in bgp['networks'].items() %}
-set protocols bgp {{bgp['as']}} network '{{network_config['network_address']}}/{{network_config['network_mask']}}'
+set protocols bgp {{bgp['as']}} network '{{network_config['subnet']}}/{{network_config['subnet_mask']}}'
+{% endfor %}
+{% endif %}
+{% if ospf %}
+{% for network, network_config in ospf['networks'].items() %}
+set protocols ospf area {{network_config['area']}} network '{{network_config['subnet']}}/{{network_config['subnet_mask']}}'
 {% endfor %}
 {% endif %}
