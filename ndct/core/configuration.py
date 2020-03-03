@@ -22,12 +22,12 @@ class Configuration:
 		device_information = Device.get_device_information(device)
 
 		connection_object = Connection(
-					device_information['name'], 
-					device_information['ip'], 
-					device_information['username'], 
-					device_information['password'], 
-					device_information['os']
-				)
+			device_information['name'], 
+			device_information['ip'], 
+			device_information['username'], 
+			device_information['password'], 
+			device_information['os']
+		)
 		device_connection = connection_object.get_connection()
 
 		if command == 'custom':
