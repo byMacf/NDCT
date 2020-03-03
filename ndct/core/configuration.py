@@ -18,18 +18,20 @@ class Configuration:
 			device: Device to send command(s) to
 			command: Command(s) to send
 		'''
+		rolled_back = False
 		device_information = Device.get_device_information(device)
-		if command == 'custom':
-			try:
-				connection_object = Connection(
+
+		connection_object = Connection(
 					device_information['name'], 
 					device_information['ip'], 
 					device_information['username'], 
 					device_information['password'], 
 					device_information['os']
 				)
-				device_connection = connection_object.get_connection()
-				
+		device_connection = connection_object.get_connection()
+
+		if command == 'custom':
+			try:
 				Configuration.snapshot_config(device, device_connection, device_information['os'])
 				
 				with open(CONFIG_PATH + device + '_custom_commands.txt') as custom_commands_from_file:
@@ -54,10 +56,15 @@ class Configuration:
 						device_connection.send_command_timing(
         					"\n", strip_prompt=False, strip_command=False
     					)
-				
+
 				for command in command_list:
-					if command != 'no shutdown':
-						Configuration.check_configuration(device, device_connection, device_information['os'], command)
+					if command != 'no shutdown' and rolled_back == False:
+						rolled_back = Configuration.check_configuration(
+							device, 
+							device_connection, 
+							device_information['os'], 
+							command
+						)
 
 				connection_object.close_connection(device_connection)
 
@@ -68,15 +75,6 @@ class Configuration:
 			try:
 				with open(MODULE_PATH + device_information['os'] + '/commands.json') as command_list_from_file:
 					command_list = json.load(command_list_from_file)
-				
-				connection_object = Connection(
-					device_information['name'], 
-					device_information['ip'], 
-					device_information['username'], 
-					device_information['password'], 
-					device_information['os']
-				)
-				device_connection = connection_object.get_connection()
 
 				log('Getting device configuration for {}...'.format(device), 'info')
 
@@ -94,15 +92,6 @@ class Configuration:
 				log('Could not send commands to {}, device unreachable'.format(device), 'error')
 		elif command == 'push':
 			try: 
-				connection_object = Connection(
-					device_information['name'], 
-					device_information['ip'], 
-					device_information['username'], 
-					device_information['password'], 
-					device_information['os']
-				)
-				device_connection = connection_object.get_connection()
-
 				Configuration.snapshot_config(device, device_connection, device_information['os'])
 
 				log('Pushing configuration to {}...'.format(device), 'info')
@@ -126,7 +115,13 @@ class Configuration:
     					)
 
 				'''for command in output:
-					Configuration.check_configuration(device, device_connection, device_information['os'], command)'''
+					if command != 'no shutdown' and rolled_back == False:
+						rolled_back = Configuration.check_configuration(
+							device, 
+							device_connection, 
+							device_information['os'], 
+							command
+						)'''
 
 				Configuration.mark_config_deployed(device)
 				connection_object.close_connection(device_connection)
@@ -153,10 +148,11 @@ class Configuration:
 
 		if config_line in configuration:
 			log('Configuration check passed for "{}" on {}'.format(config_line, device), 'info')
+			return False
 		else:
 			log('Configuration check failed for "{}" on {}, rolling back'.format(config_line, device), 'info')
 			Configuration.rollback_config(device, os, connection)
-			# Could return a value here to then check in the custom/push functions, while loop to stop if return True
+			return True
 
 	@staticmethod
 	def mark_config_deployed(device):
@@ -213,7 +209,6 @@ class Configuration:
 			device: Device name
 			device_connection: Device connection object
 		'''	
-		# Multiple rollbacks can be triggered creating a loop, FIX
 		try: 
 			with open(CONFIG_PATH + device + '_custom_commands.txt') as custom_commands_from_file:
 				command_list_temp = custom_commands_from_file.read().splitlines()
