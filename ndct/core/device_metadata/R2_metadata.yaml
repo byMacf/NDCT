@@ -18,7 +18,6 @@ R2:
         subnet_mask: 32
 
   ospf:
-    pid: 1
     networks:
       network1:
         area: 0

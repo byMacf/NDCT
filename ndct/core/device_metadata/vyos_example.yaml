@@ -1,0 +1,25 @@
+ROUTER:
+  hostname: X
+  interfaces:
+    int1:
+      description: X
+      ip_address: X
+      subnet_mask: X
+
+  bgp:
+    as: X
+    peers: 
+      X:
+        neighbor_ip: X
+        neighbor_as: X
+    networks:
+      network1:
+        subnet: X
+        subnet_mask: X
+
+  ospf:
+    networks:
+      network1:
+        area: X
+        subnet: X
+        subnet_mask: X
