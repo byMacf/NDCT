@@ -8,7 +8,7 @@ from ndct.core.log import log
 @click.command(short_help = 'Add a deployment')
 @click.option('-n', '--name', help = 'Name', required = True)
 @click.option('-t', '--targets', nargs = 0, help = 'Devices to deploy to', required = True)
-@click.option('-a', '--action', type = click.Choice(['pull', 'push', 'custom']), help = 'Deployment action', required = True)
+@click.option('-a', '--action', type = click.Choice(['get', 'deploy_generated', 'deploy_custom']), help = 'Deployment action', required = True)
 @click.argument('targets', nargs = -1)
 def add(name, targets, action):
 	'''

@@ -44,8 +44,13 @@ class Deployment:
 
 		self.status = 'In progress'
 		log('Updated deployment status to In progress', 'info')
-		
-		device_processes = [Process(target=Configuration.send_command_to_device, args=(target_device, self.action)) for target_device in self.targets]
+
+		if self.action == 'get':
+			device_processes = [Process(target=Configuration.get_configuration, args=(target_device)) for target_device in self.targets]
+		elif self.action == 'deploy_generated':
+			device_processes = [Process(target=Configuration.deploy_generated_configuration, args=(target_device)) for target_device in self.targets]
+		elif self.action == 'deploy_custom':
+			device_processes = [Process(target=Configuration.deploy_custom_configuration, args=(target_device)) for target_device in self.targets]
 
 		for _process in device_processes:
 			_process.start()
