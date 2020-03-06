@@ -63,15 +63,15 @@ def stored():
 
 @click.command(short_help = 'Show the difference between two configuration files')
 @click.option('-c1', '--config1', help='Configuration file 1', required = True)
-@click.option('-c2', '--config2', help='Password to authenticate with', required = True)
+@click.option('-c2', '--config2', help='Configuration file 2', required = True)
 def diff(config1, config2):
 	'''
 	Summary:
-	Creates and outputs the difference between two device configuration files by comparing them line by line.
+	Outputs the difference between two device configuration files by comparing them line by line.
 
 	Takes:
 	config1: First configuration file
-	config2: Configuration file to compare the first with
+	config2: Configuration file to compare with
 	'''
 	config1_lines = open(CONFIG_PATH + config1).read().splitlines()
 	config2_lines = open(CONFIG_PATH + config2).read().splitlines()
