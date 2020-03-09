@@ -5,6 +5,7 @@ from ast import literal_eval
 from cryptography.fernet import Fernet
 from ndct.core.crypt import Crypt
 from ndct.core.log import log
+from ndct.core.paths import DB_PATH
 
 @click.command(short_help = 'Decrypt a file')
 @click.option('-f', '--filename', type = click.Choice(['devices', 'deployments']), help = 'Filename', required = True)
@@ -18,13 +19,13 @@ def decrypt(filename):
 	'''
 	key = Crypt.get_key()
 
-	with open('Documents/Python/NDCT/ndct/core/db/' + filename, 'rb') as encrypted_file:
+	with open(DB_PATH + filename, 'rb') as encrypted_file:
 		data = encrypted_file.read()
 
 	fernet = Fernet(key)
 	decrypted_data = literal_eval(fernet.decrypt(data).decode())
 
-	with open('Documents/Python/NDCT/ndct/core/db/' + filename + '.decrypted', 'w') as decrypted_file:
+	with open(DB_PATH + filename + '.decrypted', 'w') as decrypted_file:
 		json.dump(decrypted_data, decrypted_file, indent=4)
 
 	log('Generated decrypted file {}.decrypted'.format(filename), 'info')

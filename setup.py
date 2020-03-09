@@ -15,6 +15,10 @@ setup(
 	# Packages
 	packages=find_packages(exclude=[""]),
 
+	package_data={
+        "": ["*.json", "*.j2"],
+    },
+
 	# Dependencies
 	install_requires=['netmiko>=2.3.3', 'Jinja2>=2.10', 'cryptography>=2.6.1', 'Click>=7.0', 'PyYAML>=5.1.2', 'pythonping>=1.0.5'],
 

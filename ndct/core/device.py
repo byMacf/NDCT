@@ -2,6 +2,7 @@ import os
 
 from ndct.core.crypt import Crypt
 from ndct.core.log import log
+from ndct.core.paths import DB_PATH
 
 devices = []
 
@@ -37,7 +38,7 @@ class Device():
 		Summary:
 		Gets device data from an encrypted file and creates an object stored in the devices list.
 		'''
-		if os.path.isfile('Documents/Python/NDCT/ndct/core/db/devices'):
+		if os.path.isfile(DB_PATH + 'devices'):
 			devices_temp_file = Crypt.get_encrypted_file_contents('devices')
 			for device in devices_temp_file:
 				device_object = Device(

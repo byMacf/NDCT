@@ -5,6 +5,7 @@ from multiprocessing import Process
 from ndct.core.configuration import Configuration
 from ndct.core.crypt import Crypt
 from ndct.core.log import log
+from ndct.core.paths import DB_PATH
 
 deployments = []
 
@@ -69,7 +70,7 @@ class Deployment:
 		Summary:
 		Gets deployment data from an encrypted file and creates an object stored in the deployments list.
 		'''
-		if os.path.isfile('Documents/Python/NDCT/ndct/core/db/deployments'):
+		if os.path.isfile(DB_PATH + 'deployments'):
 			deployments_temp_file = Crypt.get_encrypted_file_contents('deployments')
 			for deployment in deployments_temp_file:
 				deployment_object = Deployment(

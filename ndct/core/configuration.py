@@ -64,7 +64,7 @@ class Configuration:
 			Takes:
 			device: Device to deploy configuration to
 		'''
-		rolled_back = False
+		#rolled_back = False
 		device_information = Device.get_device_information(device)
 
 		connection_object = Connection(

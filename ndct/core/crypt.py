@@ -9,7 +9,7 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from ndct.core.paths import KEY_PATH
+from ndct.core.paths import KEY_PATH, DB_PATH
 from ndct.core.log import log
 
 class Crypt:
@@ -84,7 +84,7 @@ class Crypt:
 		fernet = Fernet(key)
 		encrypted_data = fernet.encrypt(str(data).encode())
 		
-		with open('Documents/Python/NDCT/ndct/core/db/' + filename, 'wb') as encrypted_file:
+		with open(DB_PATH + filename, 'wb') as encrypted_file:
 			encrypted_file.write(encrypted_data)
 
 	@staticmethod
@@ -101,7 +101,7 @@ class Crypt:
 		'''
 		key = Crypt.generate_key()
 
-		with open('Documents/Python/NDCT/ndct/core/db/' + filename, 'rb') as encrypted_file:
+		with open(DB_PATH + filename, 'rb') as encrypted_file:
 			data = encrypted_file.read()
 
 		fernet = Fernet(key)
