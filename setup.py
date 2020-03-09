@@ -16,7 +16,7 @@ setup(
 	packages=find_packages(exclude=[""]),
 
 	package_data={
-        "": ["*.json", "*.j2"],
+        "": ["*.json", "*.j2", "*.yaml", "*.txt"],
     },
 
 	# Dependencies
