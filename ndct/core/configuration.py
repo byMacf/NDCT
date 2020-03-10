@@ -83,15 +83,18 @@ class Configuration:
 
 			Configuration.save_configuration(device_information['os'], device_connection)
 
-			Configuration.check_full_configuration(
+			pushed_successfully = Configuration.check_full_configuration(
 				device, 
 				device_connection, 
 				device_information['os']
 			)
 
-			Configuration.mark_configuration_as_deployed(device)
+			if pushed_successfully == True:
+				Configuration.mark_configuration_as_deployed(device)
+				Configuration.delete_rollback_configuration(device)
+				
 			connection_object.close_connection(device_connection)
-			Configuration.delete_rollback_configuration(device)
+			
 		except AttributeError:
 			log('Could not send commands to {}, device unreachable'.format(device), 'error')
 
@@ -188,8 +191,10 @@ class Configuration:
 
 		if full_configuration_pushed == True:
 			log('[{}] Configuration check push was successful'.format(device), 'info')
+			return True
 		else:
 			log('[{}] Configuration check failed, check configuration manually'.format(device), 'info')
+			return False
 
 	@staticmethod
 	def save_configuration(os, device_connection):
