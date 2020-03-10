@@ -83,11 +83,11 @@ class Configuration:
 
 			Configuration.save_configuration(device_information['os'], device_connection)
 
-			log(Configuration.check_full_configuration(
+			Configuration.check_full_configuration(
 				device, 
 				device_connection, 
 				device_information['os']
-			), 'info')
+			)
 
 			Configuration.mark_configuration_as_deployed(device)
 			connection_object.close_connection(device_connection)
