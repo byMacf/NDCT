@@ -42,7 +42,7 @@ class Configuration:
 
 			for command in command_list:
 				if command != 'no shutdown' and rolled_back == False:
-					rolled_back = Configuration.check_configuration(
+					rolled_back = Configuration.check_configuration_line(
 						device, 
 						device_connection, 
 						device_information['os'], 
@@ -64,7 +64,6 @@ class Configuration:
 			Takes:
 			device: Device to deploy configuration to
 		'''
-		#rolled_back = False
 		device_information = Device.get_device_information(device)
 
 		connection_object = Connection(
@@ -84,14 +83,11 @@ class Configuration:
 
 			Configuration.save_configuration(device_information['os'], device_connection)
 
-			'''for command in output:
-				if command != 'no shutdown' and rolled_back == False:
-					rolled_back = Configuration.check_configuration(
-						device, 
-						device_connection, 
-						device_information['os'], 
-						command
-					)'''
+			log(Configuration.check_full_configuration(
+				device, 
+				device_connection, 
+				device_information['os']
+			), 'info')
 
 			Configuration.mark_configuration_as_deployed(device)
 			connection_object.close_connection(device_connection)
@@ -139,16 +135,16 @@ class Configuration:
 			log('Could not send commands to {}, device unreachable'.format(device), 'error')
 
 	@staticmethod
-	def check_configuration(device, device_connection, os, configuration_line):
+	def check_configuration_line(device, device_connection, os, configuration_line):
 		'''
 			Summary:
-			Checks if configuration has been pushed to device.
+			Checks if configuration line has been pushed to device.
 
 			Takes:
 			device: Device name
 			device_connection: Device connection object
 			os: Operating system of device
-			configuration_line: Configuration to check for
+			configuration_line: Configuration line to check for
 		'''
 		with open(MODULE_PATH + os + '/commands.json') as command_file_temp:
 			command_file = json.load(command_file_temp)
@@ -156,12 +152,44 @@ class Configuration:
 		configuration = device_connection.send_command(command_file['commands']['config'])
 
 		if configuration_line in configuration:
-			log('Configuration check passed for "{}" on {}'.format(configuration_line, device), 'info')
+			log('[{}] Configuration check passed for "{}"'.format(device, configuration_line), 'info')
 			return False
 		else:
-			log('Configuration check failed for "{}" on {}, rolling back'.format(configuration_line, device), 'info')
+			log('[{}] Configuration check failed for "{}", rolling back'.format(device, configuration_line), 'info')
 			Configuration.rollback_configuration(device, os, device_connection)
 			return True
+
+	@staticmethod
+	def check_full_configuration(device, device_connection, os):
+		'''
+			Summary:
+			Checks if full configuration has been pushed to device.
+
+			Takes:
+			device: Device name
+			device_connection: Device connection object
+			os: Operating system of device
+		'''
+		full_configuration_pushed = True
+
+		with open(MODULE_PATH + os + '/commands.json') as command_file_temp:
+			command_file = json.load(command_file_temp)
+
+		device_configuration = device_connection.send_command(command_file['commands']['config'])
+
+		with open(CONFIG_PATH + device + '_generated.txt') as pushed_configuration_temp:
+			pushed_configuration = pushed_configuration_temp.read().splitlines()
+
+		log('[{}] Checking configuration...'.format(device), 'info')
+
+		for configuration_line in pushed_configuration:
+			if configuration_line not in device_configuration:
+				full_configuration_pushed = False
+
+		if full_configuration_pushed == True:
+			log('[{}] Configuration check push was successful'.format(device), 'info')
+		else:
+			log('[{}] Configuration check failed, check configuration manually'.format(device), 'info')
 
 	@staticmethod
 	def save_configuration(os, device_connection):
@@ -199,7 +227,7 @@ class Configuration:
 			Takes:
 			device: Name of device to mark configuration as deployed for
 		'''
-		with open(CONFIG_PATH + device + '_generated.txt', 'r') as generated_configuration_file:
+		with open(CONFIG_PATH + device + '_generated.txt') as generated_configuration_file:
 			deployed_configuration = generated_configuration_file.read()
 
 		with open(CONFIG_PATH + device + '_deployed_' + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + '.txt', 'w') as deployed_configuration_file:
