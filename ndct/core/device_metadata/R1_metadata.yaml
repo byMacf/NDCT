@@ -1,7 +1,7 @@
 R1:
   hostname: R1
   interfaces:
-    lo0:
+    Loopback0:
       description: Loopback
       ip_address: 11.11.11.11
       subnet_mask: 255.255.255.255

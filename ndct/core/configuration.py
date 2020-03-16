@@ -186,7 +186,7 @@ class Configuration:
 		log('[{}] Checking configuration...'.format(device), 'info')
 
 		for configuration_line in pushed_configuration:
-			if configuration_line not in device_configuration:
+			if configuration_line not in device_configuration and configuration_line != '!':
 				full_configuration_pushed = False
 
 		if full_configuration_pushed == True:
