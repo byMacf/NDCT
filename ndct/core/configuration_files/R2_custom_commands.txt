@@ -1,1 +1,1 @@
-set protocols ospf area 1 network '192.168.22.0/24'
+set protocols ospf area 0 network '192.168.21.0/24'

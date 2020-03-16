@@ -193,7 +193,7 @@ class Configuration:
 			log('[{}] Configuration check was successful'.format(device), 'info')
 			return True
 		else:
-			log('[{}] Configuration check failed, check configuration manually'.format(device), 'info')
+			log('[{}] Configuration check failed, check configuration manually'.format(device), 'error')
 			return False
 
 	@staticmethod

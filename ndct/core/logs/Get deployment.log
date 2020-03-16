@@ -1,0 +1,20 @@
+2020-03-16 16:51:48,380 [INFO] Using existing key Documents/Python/NDCT/ndct/core/db/key.key for encryption/decryption
+2020-03-16 16:51:48,384 [INFO] Got devices from file
+2020-03-16 16:51:48,386 [INFO] Using existing key Documents/Python/NDCT/ndct/core/db/key.key for encryption/decryption
+2020-03-16 16:51:48,389 [INFO] Got deployments from file
+2020-03-16 16:51:48,389 [INFO] [TestR1R2Get] Running deployment
+2020-03-16 16:51:48,389 [INFO] [TestR1R2Get] Updated deployment status to In progress
+2020-03-16 16:51:48,408 [INFO] [R2] Reachable, getting connection...
+2020-03-16 16:51:48,413 [INFO] [R1] Reachable, getting connection...
+2020-03-16 16:51:52,523 [INFO] [R2] Connected
+2020-03-16 16:51:52,525 [INFO] [R2] Getting device configuration...
+2020-03-16 16:51:53,133 [INFO] [R2] Device configuration stored as R2_latest.txt in Documents/Python/NDCT/ndct/core/configuration_files/
+2020-03-16 16:51:53,209 [INFO] [R1] Connected
+2020-03-16 16:51:53,212 [INFO] [R1] Getting device configuration...
+2020-03-16 16:51:54,620 [INFO] [R1] Device configuration stored as R1_latest.txt in Documents/Python/NDCT/ndct/core/configuration_files/
+2020-03-16 16:51:54,749 [INFO] [R1] Disconnected
+2020-03-16 16:51:55,339 [INFO] [R2] Disconnected
+2020-03-16 16:51:55,344 [INFO] [TestR1R2Get] Updated deployment status to Completed
+2020-03-16 16:51:55,345 [INFO] [TestR1R2Get] Deployment completed
+2020-03-16 16:51:55,345 [INFO] Using existing key Documents/Python/NDCT/ndct/core/db/key.key for encryption/decryption
+2020-03-16 16:51:55,347 [INFO] Saved deployments to file
