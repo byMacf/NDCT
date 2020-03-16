@@ -1,13 +1,7 @@
 {
     "commands": 
     {
-        "term_length": "terminal length 0",
         "config": "show run",
-        "interfaces": "show ip interfaces",
-        "bgp_neighbor": "show ip bgp neighbor",
-        "bgp_summary": "show ip bgp summary",
-        "ospf_neighbor": "show ip ospf neighbor",
-        "ospf_summary": "show ip ospf database",
-        "routes": "show ip route"
+        "save_config": "copy run start"
     }
 }
