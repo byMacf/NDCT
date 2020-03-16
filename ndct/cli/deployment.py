@@ -23,11 +23,11 @@ def add(name, targets, action):
 	Deployment.get_deployments_from_file()
 	for deployment in deployments:
 		if name in deployment:
-			log('Cannot add {}, deployment already exists'.format(name), 'info')
+			log('[{}] Deployment already exists'.format(name), 'info')
 			sys.exit(1)
 	deployment_object = Deployment(name, list(targets), action)
 	deployments.append({name: deployment_object})
-	log('Deployment {} with ID {} added successfully'.format(name, deployment_object.deployment_id), 'info')
+	log('[{}] Deployment added successfully with ID {}'.format(name, deployment_object.deployment_id), 'info')
 	Deployment.save_deployments_to_file()
 
 @click.command(short_help = 'Remove a deployment')
@@ -44,11 +44,11 @@ def remove(name):
 	for deployment in deployments:
 		if name in deployment:
 			deployments.remove(deployment)
-			log('Deployment {} removed successfully'.format(name), 'info')
+			log('[{}] Deployment removed successfully'.format(name), 'info')
 			Deployment.save_deployments_to_file()
 			return
 	
-	log('Deployment {} does not exist'.format(name), 'error')
+	log('[{}] Deployment does not exist'.format(name), 'error')
 
 @click.command(short_help = 'View a deployment')
 @click.option('-n', '--name', help = 'Name', required = True)
@@ -71,7 +71,7 @@ def view(name):
 			log('Status: ' + str(deployment_dict['status']), 'info')
 			return
 	
-	log('Deployment {} does not exist'.format(name), 'error')
+	log('[{}] Deployment does not exist'.format(name), 'error')
 
 @click.command(short_help = 'Run a deployment')
 @click.option('-n', '--name', help = 'Name', required = True)
@@ -90,7 +90,7 @@ def run(name):
 			deployment[name].run()
 			Deployment.save_deployments_to_file()
 			return
-	log('Deployment {} does not exist'.format(name), 'error')
+	log('[{}] Deployment does not exist'.format(name), 'error')
 
 @click.group(short_help = 'Deployment commands')
 def deployment():

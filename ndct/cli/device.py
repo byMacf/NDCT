@@ -27,11 +27,11 @@ def add(name, ip, username, password, os):
 	Device.get_devices_from_file()
 	for device in devices:
 		if name in device:
-			log('Cannot add {}, device already exists'.format(name), 'info')
+			log('[{}] Device already exists'.format(name), 'info')
 			sys.exit(1)
 	device_object = Device(name, ip, username, password, os)
 	devices.append({name: device_object})
-	log('Device {} added successfully'.format(name), 'info')
+	log('[{}] Device added successfully'.format(name), 'info')
 	Device.save_devices_to_file()
 
 @click.command(short_help = 'Add devices from a file')
@@ -45,7 +45,7 @@ def add_from_file(filename):
 			for device_attribute in range(0, len(all_lines), 5):
 				for device in devices:
 					if all_lines[device_attribute] in device:
-						log('Cannot add {}, device already exists'.format(all_lines[device_attribute]), 'info')
+						log('[{}] Device already exists'.format(all_lines[device_attribute]), 'info')
 						sys.exit(1)
 				device_object = Device(all_lines[device_attribute], all_lines[device_attribute+1], all_lines[device_attribute+2], all_lines[device_attribute+3], all_lines[device_attribute+4])
 				devices.append({all_lines[device_attribute]: device_object})
@@ -65,11 +65,11 @@ def remove(name):
 	for device in devices:
 		if name in device:
 			devices.remove(device)
-			log('Device {} removed successfully'.format(name), 'info')
+			log('[{}] Device removed successfully'.format(name), 'info')
 			Device.save_devices_to_file()
 			return
 
-	log('Device {} does not exist'.format(name), 'error')
+	log('[{}] Device does not exist'.format(name), 'error')
 
 @click.command(short_help = 'View a device')
 @click.option('-n', '--name', help = 'Name', required = True)
@@ -90,7 +90,7 @@ def view(name):
 		log('Password: ' + str(device_information['password']), 'info')
 		log('OS: ' + str(device_information['os']), 'info')
 	else:
-		log('Device {} does not exist'.format(name), 'error')
+		log('[{}] Device does not exist'.format(name), 'error')
 
 @click.group(short_help = 'Device commands')
 def device():

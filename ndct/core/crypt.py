@@ -26,7 +26,7 @@ class Crypt:
 			128-bit AES
 		'''
 		if os.path.isfile(KEY_PATH):
-			log('Using existing key in {} for encryption/decryption'.format(KEY_PATH), 'info')
+			log('Using existing key {} for encryption/decryption'.format(KEY_PATH), 'info')
 			key = Crypt.get_key()
 
 			return key
@@ -48,7 +48,7 @@ class Crypt:
 			with open(KEY_PATH, 'wb') as encryption_key:
 				encryption_key.write(key)
 
-			log('Stored encryption key in {}'.format(KEY_PATH), 'info')
+			log('Stored encryption key as {}'.format(KEY_PATH), 'info')
 
 			return key
 	

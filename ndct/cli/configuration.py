@@ -25,7 +25,7 @@ def generate(name):
 		with open(METADATA_PATH + name + '_metadata.yaml', 'r') as metadata:
 			device_metadata = (yaml.safe_load(metadata))
 	else:
-		log('Metadata for {} does not exist'.format(name), 'info')
+		log('[{}] Metadata does not exist'.format(name), 'info')
 		sys.exit(1)
 
 	device_os = Device.get_device_information(name)['os']
@@ -40,7 +40,7 @@ def generate(name):
 	with open(CONFIG_PATH + name + '_generated.txt', 'w') as generated_config_file:
 		generated_config_file.write(configuration)
 
-	log('Generated configuration for {}'.format(name), 'info')
+	log('[{}] Generated configuration'.format(name), 'info')
 
 @click.command(short_help = 'List configuration files')
 def stored():
