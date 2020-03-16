@@ -25,7 +25,7 @@ class Connection(Device):
 		ping_result = ping(self.ip, count=1)
 
 		if 'Request timed out' not in str(ping_result):
-			log('{} reachable, getting connection...'.format(self.name), 'info')
+			log('[{}] Reachable, getting connection...'.format(self.name), 'info')
 
 			connection = Netmiko(
 				self.ip,
@@ -34,10 +34,10 @@ class Connection(Device):
 				device_type=self.os
 			)
 
-			log('Connected to {}'.format(self.name), 'info')
+			log('[{}] Connected'.format(self.name), 'info')
 			return connection
 		else:
-			log('{} not reachable'.format(self.name), 'info')
+			log('[{}] Not reachable'.format(self.name), 'info')
 			return
 
 	def close_connection(self, connection):
@@ -50,4 +50,4 @@ class Connection(Device):
 		'''
 		connection.disconnect()
 
-		log('Disconnected from {}'.format(self.name), 'info')
+		log('[{}] Disconnected'.format(self.name), 'info')

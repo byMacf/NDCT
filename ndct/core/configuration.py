@@ -238,7 +238,7 @@ class Configuration:
 		with open(CONFIG_PATH + device + '_deployed_' + datetime.now().strftime('%Y-%m-%d_%H:%M:%S') + '.txt', 'w') as deployed_configuration_file:
 			deployed_configuration_file.write(deployed_configuration)
 
-		log('Marked generated configuration for {} as deployed'.format(device), 'info')
+		log('[{}] Marked generated configuration as deployed'.format(device), 'info')
 
 	@staticmethod
 	def snapshot_configuration(device, device_connection, os):
