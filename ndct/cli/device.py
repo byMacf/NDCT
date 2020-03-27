@@ -22,7 +22,7 @@ def add(name, ip, username, password, os):
 	ip: Management IP address of device
 	username: Username to authenticate against
 	password: Password to authenticate with
-	os: Operating system of device
+	os: Operating system of device cisco_ios|juniper|vyos
 	'''
 	Device.get_devices_from_file()
 	for device in devices:
