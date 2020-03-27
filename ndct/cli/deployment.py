@@ -18,7 +18,7 @@ def add(name, targets, action):
 	Takes:
 	name: Name of deployment
 	targets: Devices to target with the deployment
-	action: Action to perform custom|routes|config|deploy
+	action: Action to perform get|deploy_generated|deploy_custom
 	'''
 	Deployment.get_deployments_from_file()
 	for deployment in deployments:
