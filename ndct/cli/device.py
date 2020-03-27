@@ -43,12 +43,15 @@ def add_from_file(filename):
 		with open(file_path, 'r') as devices_file:
 			all_lines = [line.strip() for line in devices_file.readlines()]
 			for device_attribute in range(0, len(all_lines), 5):
+				device_exists = False
 				for device in devices:
 					if all_lines[device_attribute] in device:
 						log('[{}] Device already exists'.format(all_lines[device_attribute]), 'info')
-						sys.exit(1)
-				device_object = Device(all_lines[device_attribute], all_lines[device_attribute+1], all_lines[device_attribute+2], all_lines[device_attribute+3], all_lines[device_attribute+4])
-				devices.append({all_lines[device_attribute]: device_object})
+						device_exists = True
+				if device_exists == False:
+					device_object = Device(all_lines[device_attribute], all_lines[device_attribute+1], all_lines[device_attribute+2], all_lines[device_attribute+3], all_lines[device_attribute+4])
+					devices.append({all_lines[device_attribute]: device_object})
+					log('[{}] Device added successfully'.format(all_lines[device_attribute]), 'info')
 	Device.save_devices_to_file()
 
 @click.command(short_help = 'Remove a device')
