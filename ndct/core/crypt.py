@@ -35,7 +35,7 @@ class Crypt:
 
 			password = getpass(prompt='New encryption key password: ')
 			password_bytes = password.encode()
-			salt = hashlib.md5(password_bytes).digest()
+			salt = os.urandom(16)
 			kdf = PBKDF2HMAC(
 				algorithm=hashes.SHA256(),
 				length=32,
