@@ -206,10 +206,15 @@ class Configuration:
 			os: Operating system of device
 			device_connection: device_connection: Device connection object
 		'''
+		with open(MODULE_PATH + os + '/commands.json') as command_file_temp:
+			command_file = json.load(command_file_temp)
+
+		save_command = command_file['commands']['save_config']
+
 		if os == 'vyos':
-			device_connection.send_config_set(['commit', 'save', 'exit'])
+			device_connection.send_config_set(save_command)
 		elif os == 'cisco_ios':
-			output = device_connection.send_command_timing('copy run start')
+			output = device_connection.send_command_timing(save_command)
 			if 'Destination filename' in output:
 				device_connection.send_command_timing(
 					"\n", strip_prompt=False, strip_command=False
