@@ -20,7 +20,7 @@ router bgp {{bgp['as']}}
 {% endif %}
 !
 {% if ospf %}
- router ospf {{ospf['process']}}
+router ospf {{ospf['process']}}
 {% for network, network_config in ospf['networks'].items() %}
  network {{network_config['subnet']}} {{network_config['wildcard_mask']}} area {{network_config['area']}}
 {% endfor %}
