@@ -174,6 +174,7 @@ class Configuration:
 			os: Operating system of device
 		'''
 		full_configuration_pushed = True
+		do_not_check = ['!', ' no shutdown']
 
 		with open(MODULE_PATH + os + '/commands.json') as command_file_temp:
 			command_file = json.load(command_file_temp)
@@ -186,7 +187,8 @@ class Configuration:
 		log('[{}] Checking configuration...'.format(device), 'info')
 
 		for configuration_line in pushed_configuration:
-			if configuration_line not in device_configuration and configuration_line != '!':
+			if configuration_line not in device_configuration and configuration_line not in do_not_check:
+				print(configuration_line)
 				full_configuration_pushed = False
 
 		if full_configuration_pushed == True:
