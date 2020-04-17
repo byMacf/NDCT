@@ -1,4 +1,4 @@
-set system host-name {{hostname}}
+set system host-name '{{hostname}}'
 {% if interfaces %}
 {% for interface, interface_config in interfaces.items() %}
 set interfaces {% if interface[0:2] == 'lo' %}loopback{% elif interface[0:3] == 'eth' %}ethernet{% endif %} {{interface}} address '{{interface_config['ip_address']}}/{{interface_config['subnet_mask']}}'
