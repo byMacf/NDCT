@@ -21,7 +21,7 @@ A configuration tool for efficient network device management.
 ###### Full operation logging
 
 # Libraries
-> click | os | difflib | yaml | netmiko | jinja2 | datetime | logging | sys | base64 | hashlib | json | ast | getpass | cryptography | time | uuid | multiprocessing | pythonping
+> 
 
 # Installation
 ```
@@ -38,57 +38,57 @@ A configuration tool for efficient network device management.
   deployment     Deployment actions
   device         Device actions
 ```
-Add device
+Add single device
 
-ndct device add -n MyDevice -i 192.168.1.1 -u username -p password -o juniper|cisco_ios|cisco_nxos|cisco_asa
+ndct device add -n DeviceName -i 192.168.1.1 -u username -p password -o cisco_ios|vyos
 ***
 
-Add deployment
+Add multiple devices from a file
 
-ndct deployment add -n MyDeployment -t MyDevice1 MyDevice2 -a push|pull|get -att bgp|interfaces|ospf|routes|config
+ndct device add-from-file -f example.txt
 ***
 
 Remove device
 
-ndct device remove -n MyDevice
-***
-
-Remove deployment
-
-ndct deployment remove -n MyDeployment
+ndct device remove -n DeviceName
 ***
 
 View device
 
-ndct device view -n MyDevice
+ndct device view -n DeviceName
+***
+
+Add deployment
+
+ndct deployment add -n DeploymentName -t Target1 Target2 -a get|deploy_generated|deploy_custom
+***
+
+Remove deployment
+
+ndct deployment remove -n DeploymentName
 ***
 
 View deployment
 
-ndct deployment view -n MyDeployment
-***
-
-List stored configuration
-
-ndct configuration display
+ndct deployment view -n DeploymentName
 ***
 
 Run deployment
 
-ndct deployment run -n MyDeployment
+ndct deployment run -n DeploymentName
+***
+
+List stored configuration files
+
+ndct configuration stored
 ***
 
 Config diff
 
-ndct configuration diff -c1 MyDevice_cisco_ios_verified.txt -c2 MyDevice_cisco_ios_generated.txt
+ndct configuration diff -c1 R1_generated.txt -c2 R2_generated.txt
 ***
 
 Generate config
 
 ndct configuration generate -n MyDevice 
-***
-
-Verify config
-
-ndct configuration verify -n MyDevice  -n MyDevice
 ***
