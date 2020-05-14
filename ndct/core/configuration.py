@@ -188,7 +188,6 @@ class Configuration:
 
 		for configuration_line in pushed_configuration:
 			if configuration_line not in device_configuration and configuration_line not in do_not_check:
-				print(configuration_line)
 				full_configuration_pushed = False
 
 		if full_configuration_pushed == True:
