@@ -26,12 +26,12 @@ class Crypt:
 			128-bit AES
 		'''
 		if os.path.isfile(KEY_PATH):
-			log('Using existing key {} for encryption/decryption'.format(KEY_PATH), 'info')
+			log("Using existing key '{}' for encryption/decryption".format(KEY_PATH), 'info')
 			key = Crypt.get_key()
 
 			return key
 		else:
-			log('No encryption key stored in {}, create a new key or add an existing one'.format(KEY_PATH), 'info')
+			log("Attempting to use '{}' but no key found, create a new key or add an existing one".format(KEY_PATH), 'info')
 
 			password = getpass(prompt='New encryption key password: ')
 			password_bytes = password.encode()
