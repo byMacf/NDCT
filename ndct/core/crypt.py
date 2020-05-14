@@ -48,7 +48,7 @@ class Crypt:
 			with open(KEY_PATH, 'wb') as encryption_key:
 				encryption_key.write(key)
 
-			log('Stored encryption key as {}'.format(KEY_PATH), 'info')
+			log("Stored encryption key as '{}'".format(KEY_PATH), 'info')
 
 			return key
 	
