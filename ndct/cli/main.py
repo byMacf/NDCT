@@ -10,7 +10,7 @@ from ndct.core.banner import banner
 def main():
     '''
     Summary:
-    Groups CLI commands to create the CLI menu.
+    Network Device Configuration Tool.
     '''
     banner()
 

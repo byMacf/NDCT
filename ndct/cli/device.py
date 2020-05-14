@@ -11,7 +11,7 @@ from ndct.core.paths import DB_PATH
 @click.option('-i', '--ip', help = 'IP address', required = True)
 @click.option('-u', '--username', help = 'Username to authenticate against', required = True)
 @click.option('-p', '--password', help = 'Password to authenticate with', required = True)
-@click.option('-o', '--os', type = click.Choice(['cisco_ios', 'juniper', 'vyos']), help = 'Operating system', required = True)
+@click.option('-o', '--os', type = click.Choice(['cisco_ios', 'vyos']), help = 'Operating system', required = True)
 def add(name, ip, username, password, os):
 	'''
 	Summary:
@@ -22,7 +22,7 @@ def add(name, ip, username, password, os):
 	ip: Management IP address of device
 	username: Username to authenticate against
 	password: Password to authenticate with
-	os: Operating system of device cisco_ios|juniper|vyos
+	os: Operating system of device cisco_ios|vyos
 	'''
 	Device.get_devices_from_file()
 	for device in devices:
