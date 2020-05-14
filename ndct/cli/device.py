@@ -40,6 +40,7 @@ def add_from_file(filename):
 	Device.get_devices_from_file()
 	file_path = DB_PATH + filename
 	if os.path.isfile(file_path):
+		log("Adding devices from '{}'".format(file_path))
 		with open(file_path, 'r') as devices_file:
 			all_lines = [line.strip() for line in devices_file.readlines()]
 			for device_attribute in range(0, len(all_lines), 5):

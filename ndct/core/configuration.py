@@ -155,10 +155,10 @@ class Configuration:
 		configuration = device_connection.send_command(command_file['commands']['config'])
 
 		if configuration_line in configuration:
-			log('[{}] Configuration check passed for "{}"'.format(device, configuration_line), 'info')
+			log("[{}] Configuration check passed for '{}'".format(device, configuration_line), 'info')
 			return False
 		else:
-			log('[{}] Configuration check failed for "{}", rolling back'.format(device, configuration_line), 'info')
+			log("[{}] Configuration check failed for '{}', rolling back".format(device, configuration_line), 'info')
 			Configuration.rollback_configuration(device, os, device_connection)
 			return True
 
