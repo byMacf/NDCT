@@ -1,5 +1,4 @@
 # NDCT (Network Device Configuration Tool)
-
 A configuration tool for efficient network device management.
 
 ## Features
